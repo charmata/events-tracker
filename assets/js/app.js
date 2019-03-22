@@ -36,7 +36,6 @@ function searchEvents(q, p, city, cat, date) {
   $.ajax({
     url: queryUrl
   }).then(function(response) {
-    console.log(response);
     response._embedded.events.forEach(event => {
       var id = event.id;
       data[id] = {};
@@ -60,7 +59,5 @@ function searchEvents(q, p, city, cat, date) {
         data[id].maxPrice = event.priceRanges[0].max;
       }
     });
-
-    console.log(data);
   });
 }
