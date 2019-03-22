@@ -22,19 +22,16 @@ var categories = {
   film: "KZFzniwnSyZfZ7v7nn"
 };
 
-function searchEvents(q, p, cat, city) {
-  if (!p) {
-    p = 0;
-  }
+function searchEvents(q, p, city, cat, date) {
   if (!cat) {
     cat = categories.sports;
   }
-  if (!city) {
-    city = "Toronto";
+  if (!date) {
+    date = moment().format("YYYY-MM-DDTHH:mm:ssZ");
+  } else {
+    date = moment(date).format("YYYY-MM-DDTHH:mm:ssZ");
   }
-  var queryUrl = `${endpoint}?apikey=${key}&radius=40&unit=km&countryCode=CA&city=${city}&segmentId=${cat}&startDateTime=${moment().format(
-    "YYYY-MM-DDTHH:mm:ssZ"
-  )}&source=ticketmaster&sort=date,asc&size=5&page=${p}&keyword=${q}`;
+  var queryUrl = `${endpoint}?apikey=${key}&radius=40&unit=km&countryCode=CA&city=${city}&segmentId=${cat}&startDateTime=${date}&source=ticketmaster&sort=date,asc&size=5&page=${p}&keyword=${q}`;
 
   $.ajax({
     url: queryUrl
