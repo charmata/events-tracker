@@ -12,19 +12,29 @@ var database = firebase.database();
 var data = {};
 
 var endpoint = "https://app.ticketmaster.com/discovery/v2/events";
-
 var key = "iDRHy92FejlZujp04SMlt4ZiH2A1LpuY";
 
-function searchEvents(q, p, city) {
+var categories = {
+  sports: "KZFzniwnSyZfZ7v7nE",
+  concerts: "KZFzniwnSyZfZ7v7nJ",
+  arts: "KZFzniwnSyZfZ7v7na",
+  family: "KnvZfZ7vA1n",
+  film: "KZFzniwnSyZfZ7v7nn"
+};
+
+function searchEvents(q, p, cat, city) {
   if (!p) {
     p = 0;
+  }
+  if (!cat) {
+    cat = categories.sports;
   }
   if (!city) {
     city = "Toronto";
   }
-  var queryUrl = `${endpoint}?apikey=${key}&unit=km&countryCode=CA&city=${city}&startDateTime=${moment().format(
+  var queryUrl = `${endpoint}?apikey=${key}&radius=40&unit=km&countryCode=CA&city=${city}&segmentId=${cat}&startDateTime=${moment().format(
     "YYYY-MM-DDTHH:mm:ssZ"
-  )}&sort=date,asc&size=5&page=${p}&keyword=${q}`;
+  )}&source=ticketmaster&sort=date,asc&size=5&page=${p}&keyword=${q}`;
 
   $.ajax({
     url: queryUrl
