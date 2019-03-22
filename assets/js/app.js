@@ -22,18 +22,9 @@ function searchEvents(q, p, city) {
   if (!city) {
     city = "Toronto";
   }
-  var queryUrl =
-    endpoint +
-    "?apikey=" +
-    key +
-    "&unit=km&countryCode=CA&city=" +
-    city +
-    "&startDateTime=" +
-    moment().format("YYYY-MM-DDTHH:mm:ssZ") +
-    "&sort=date,asc&size=5&page=" +
-    p +
-    "&keyword=" +
-    q;
+  var queryUrl = `${endpoint}?apikey=${key}&unit=km&countryCode=CA&city=${city}&startDateTime=${moment().format(
+    "YYYY-MM-DDTHH:mm:ssZ"
+  )}&sort=date,asc&size=5&page=${p}&keyword=${q}`;
 
   $.ajax({
     url: queryUrl
