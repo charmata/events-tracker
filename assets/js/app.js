@@ -15,12 +15,20 @@ var endpoint = "https://app.ticketmaster.com/discovery/v2/events";
 
 var key = "";
 
-function searchEvents(q, p) {
+function searchEvents(q, p, city) {
+  if (!p) {
+    p = 0;
+  }
+  if (!city) {
+    city = "Toronto";
+  }
   var queryUrl =
     endpoint +
     "?apikey=" +
     key +
-    "&unit=km&countryCode=CA&startDateTime=" +
+    "&unit=km&countryCode=CA&city=" +
+    city +
+    "&startDateTime=" +
     moment().format("YYYY-MM-DDTHH:mm:ssZ") +
     "&sort=date,asc&size=5&page=" +
     p +
