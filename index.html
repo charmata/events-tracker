@@ -24,16 +24,60 @@
     ></script>
     <script src="https://www.gstatic.com/firebasejs/5.9.0/firebase.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
+      integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf"
+      crossorigin="anonymous"
+    />
     <link rel="stylesheet" href="./assets/css/style.css" />
     <script src="./assets/js/app.js"></script>
   </head>
   <body>
     <div class="container-fluid">
-      <div class="jumbotron bg-warning text-center py-4">
+      <nav class="navbar sticky-top navbar-expand-lg navbar-light bg-warning py-1">
+        <span class="navbar-brand text-info font-weight-bold" href="#">Events</span>
+        <div class="collapse navbar-collapse" id="navbarText">
+          <ul class="navbar-nav mr-auto w-100 d-flex justify-content-around">
+            <li class="nav-item">
+              <a class="nav-link" href="#">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">My Tracker</a>
+            </li>
+            <li>
+              <a class="nav-link" href="#" id="signin"> Sign In</a>
+            </li>
+            <li class="nav-item dropdown" id="signout" style="display: none">
+              <a
+                class="nav-link dropdown-toggle"
+                href="#"
+                id="navbarDropdown"
+                role="button"
+                data-toggle="dropdown"
+                aria-haspopup="true"
+                aria-expanded="false"
+              >
+                Sign In
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <a class="dropdown-item" href="#">Sign Out</a>
+                <a class="dropdown-item" href="#">Github Page</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="#">About</a>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </nav>
+      <div class="jumbotron bg-warning text-center py-4 mb-3">
         <div class="row mt-4 mx-0">
           <div class="column col-3"></div>
-          <div class="column col-6">
-            <input type="text" class="form-control" id="event-search" placeholder="Search for events" />
+          <div class="column col-6 input-group">
+            <input class="form-control" id="event-search" type="text" placeholder="Search for events" />
+            <div class="input-group-append">
+              <span class="input-group-text bg-info"><i id="fonticon-search" class="fas fa-search fa-fw"></i></span>
+            </div>
           </div>
           <div class="column col-3"></div>
         </div>
@@ -52,21 +96,21 @@
         </div>
       </div>
 
-      <div class="row mt-4 mx-0">
+      <div class="row mt-2 mx-0">
         <div class="column col-2"></div>
         <div class="column col-8">
           <form class="d-flex justify-content-around">
             <div class="form-group">
               <select class="form-control" id="cityList">
                 <option>Select City</option>
-                <option value="9">Toronto</option>
-                <option value="11">Vancouver</option>
-                <option value="17">New York</option>
-                <option value="18">Chicago</option>
-                <option value="21">Boston</option>
-                <option value="23">Calgary</option>
-                <option value="24">Montreal</option>
-                <option value="27">Florida</option>
+                <option>Toronto</option>
+                <option>Vancouver</option>
+                <option>New York</option>
+                <option>Chicago</option>
+                <option>Boston</option>
+                <option>Calgary</option>
+                <option>Montreal</option>
+                <option>Florida</option>
               </select>
             </div>
             <div class="form-group">
