@@ -105,13 +105,31 @@ function addSearchRow(id) {
 }
 
 $(document).ready(function() {
+  var query, page, city, date, category;
   $("#search").on("click", function() {
-    var query = $("#event-search")
+    query = $("#event-search")
       .val()
       .trim();
-    var city = $("#cityList").val();
-    var date = $("#start-date").val();
-    var category = $("#category-list").val();
-    searchEvents(query, 0, city, date, category);
+    page = 0;
+    city = $("#cityList").val();
+    date = $("#start-date").val();
+    category = $("#category-list").val();
+    searchEvents(query, page, city, date, category);
+  });
+  $("#next-page").on("click", function(e) {
+    e.preventDefault();
+    console.log(page);
+    if (page !== undefined) {
+      page++;
+      searchEvents(query, page, city, date, category);
+    }
+  });
+  $("#previous-page").on("click", function(e) {
+    e.preventDefault();
+    console.log(page);
+    if (page !== undefined && page !== 0) {
+      page--;
+      searchEvents(query, page, city, date, category);
+    }
   });
 });
