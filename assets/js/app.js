@@ -71,7 +71,7 @@ function searchEvents(query, page, city, category, date) {
       $(eventName).append(eventLink);
       var eventLocation = $("<td>").text(data[id].venue);
       var eventSchedule = $("<td>").text(
-        moment(data[id].date).format("MMMM DD, YYYY") +
+        moment(data[id].date).format("MMM DD, YYYY") +
           " at " +
           moment(data[id].time, "H:mm:ss").format("h:mma")
       );
