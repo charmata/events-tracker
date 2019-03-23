@@ -10,6 +10,7 @@ firebase.initializeApp(config);
 var database = firebase.database();
 
 var data = {};
+var totalPages;
 
 var endpoint = "https://app.ticketmaster.com/discovery/v2/events";
 var key = "iDRHy92FejlZujp04SMlt4ZiH2A1LpuY";
@@ -26,7 +27,7 @@ function searchEvents(query, page, city, date, category) {
     url: queryUrl
   }).then(function(response) {
     $("#event-details").empty();
-    var totalResults = response.page.totalElements;
+    totalPages = response.page.totalPages;
     response._embedded.events.forEach(event => {
       // Store data
       var id = event.id;
@@ -107,6 +108,12 @@ function addSearchRow(id) {
 $(document).ready(function() {
   var query, page, city, date, category;
   $("#search").on("click", function() {
+    $("#next-page")
+      .parent()
+      .removeClass("disabled");
+    $("#previous-page")
+      .parent()
+      .addClass("disabled");
     query = $("#event-search")
       .val()
       .trim();
@@ -119,18 +126,32 @@ $(document).ready(function() {
   $("#next-page").on("click", function(e) {
     e.preventDefault();
     if (page !== undefined) {
-      $("#previous-page")
-        .parent()
-        .removeClass("disabled");
-      page++;
-      searchEvents(query, page, city, date, category);
+      if (page < totalPages) {
+        if (page === 0) {
+          $("#previous-page")
+            .parent()
+            .removeClass("disabled");
+        }
+        page++;
+        searchEvents(query, page, city, date, category);
+      }
+      if (page === totalPages - 1) {
+        $("#next-page")
+          .parent()
+          .addClass("disabled");
+      }
     }
   });
   $("#previous-page").on("click", function(e) {
     e.preventDefault();
     if (page !== undefined && page !== 0) {
+      if (page === totalPages - 1) {
+        $("#next-page")
+          .parent()
+          .removeClass("disabled");
+      }
       page--;
-      if (page == 0) {
+      if (page === 0) {
         $("#previous-page")
           .parent()
           .addClass("disabled");
