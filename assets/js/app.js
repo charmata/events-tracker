@@ -32,11 +32,12 @@ function searchEvents(query, page, city, category, date) {
   } else {
     date = moment(date).format("YYYY-MM-DDTHH:mm:ssZ");
   }
-  var queryUrl = `${endpoint}?apikey=${key}&radius=40&unit=km&countryCode=CA&city=${city}&segmentId=${category}&startDateTime=${date}&source=ticketmaster&sort=date,asc&size=5&page=${page}&keyword=${query}`;
+  var queryUrl = `${endpoint}?apikey=${key}&radius=40&unit=km&countryCode=CA&city=${city}&segmentId=${category}&startDateTime=${date}&sort=date,asc&size=5&page=${page}&keyword=${query}`;
 
   $.ajax({
     url: queryUrl
   }).then(function(response) {
+    var totalResults = response.page.totalElements;
     response._embedded.events.forEach(event => {
       // Store data
       var id = event.id;
@@ -60,38 +61,56 @@ function searchEvents(query, page, city, category, date) {
         data[id].minPrice = event.priceRanges[0].min;
         data[id].maxPrice = event.priceRanges[0].max;
       }
-
-      // Create table elements
-      var row = $("<tr>").attr("data-id", id);
-      var eventName = $("<td>").attr("colspan", "2");
-      var eventLink = $("<a>")
-        .attr("href", data[id].link)
-        .attr("target", "_blank")
-        .text(data[id].name);
-      $(eventName).append(eventLink);
-      var eventLocation = $("<td>").text(data[id].venue);
-      var eventSchedule = $("<td>").text(
-        moment(data[id].date).format("MMM DD, YYYY") +
-          " at " +
-          moment(data[id].time, "H:mm:ss").format("h:mma")
-      );
-      var eventPriceRange = $("<td>").text(
-        "$" + data[id].minPrice + " - $" + data[id].maxPrice
-      );
-      var eventStatus = $("<td>").text(data[id].status);
-      var eventSave = $("<td>").text(""); // Placeholder
-
-      // Append elements to table
-      $(row).append(eventName);
-      $(row).append(eventLocation);
-      $(row).append(eventSchedule);
-      $(row).append(eventPriceRange);
-      $(row).append(eventStatus);
-      $(row).append(eventSave);
-      $("#event-details").append(row);
+      addSearchRow(id);
     });
     console.log(data);
   });
+}
+
+function addSearchRow(id) {
+  // Create table elements
+  var row = $("<tr>").attr("data-id", id);
+
+  var eventName = $("<td>").attr("colspan", "2");
+  var eventLink = $("<a>")
+    .attr("href", data[id].link)
+    .attr("target", "_blank")
+    .text(data[id].name);
+  $(eventName).append(eventLink);
+
+  var eventLocation = $("<td>").text(data[id].venue);
+
+  if (data[id].time) {
+    var eventSchedule = $("<td>").text(
+      moment(data[id].date).format("MMM DD, YYYY") +
+        " at " +
+        moment(data[id].time, "H:mm:ss").format("h:mma")
+    );
+  } else {
+    var eventSchedule = $("<td>").text(
+      moment(data[id].date).format("MMM DD, YYYY")
+    );
+  }
+
+  if (data[id].minPrice) {
+    var eventPriceRange = $("<td>").text(
+      "$" + data[id].minPrice + " - $" + data[id].maxPrice
+    );
+  } else {
+    var eventPriceRange = $("<td>").text("TBD");
+  }
+
+  var eventStatus = $("<td>").text(data[id].status);
+  var eventSave = $("<td>").text(""); // Placeholder
+
+  // Append elements to table
+  $(row).append(eventName);
+  $(row).append(eventLocation);
+  $(row).append(eventSchedule);
+  $(row).append(eventPriceRange);
+  $(row).append(eventStatus);
+  $(row).append(eventSave);
+  $("#event-details").append(row);
 }
 
 $(document).ready(function() {
