@@ -59,5 +59,6 @@ function searchEvents(q, p, city, cat, date) {
         data[id].maxPrice = event.priceRanges[0].max;
       }
     });
+    console.log(data);
   });
 }
