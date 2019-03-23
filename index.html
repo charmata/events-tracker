@@ -102,7 +102,6 @@
           <form class="d-flex justify-content-around">
             <div class="form-group">
               <select class="form-control" id="cityList">
-                <option>Select City</option>
                 <option>Toronto</option>
                 <option>Vancouver</option>
                 <option>New York</option>
@@ -125,6 +124,90 @@
         </div>
         <div class="column col-2"></div>
       </div>
+
+      <div class="row mt-2 mx-0">
+        <div class="column col-12">
+          <table class="table table-sm table-info">
+            <thead>
+              <tr>
+                <th scope="col" colspan="2">Event</th>
+                <th scope="col">Location</th>
+                <th scope="col">Schedule</th>
+                <th scope="col">Price Range</th>
+                <th scope="col">Status</th>
+                <th scope="col">Save</th>
+              </tr>
+            </thead>
+            <tbody id="event-details">
+              <tr>
+                <td colspan="2">Event</td>
+                <td>Location</td>
+                <td>Schedule</td>
+                <td>Price Range</td>
+                <td>Status</td>
+                <td>Save</td>
+              </tr>
+            </tbody>
+          </table>
+          <nav>
+            <ul class="pagination">
+              <li class="page-item">
+                <a class="page-link bg-info text-light" href="#" id="previous-page">Previous</a>
+              </li>
+              <li class="page-item"><a class="page-link bg-info text-light" href="#" id="next-page">Next</a></li>
+            </ul>
+          </nav>
+        </div>
+      </div>
+
+      <div class="row mt-4 mx-0">
+        <div class="column col-1"></div>
+        <div class="column col-10">
+          <div class="card text-center">
+            <div class="card-header bg-info">
+              <ul class="nav nav-tabs card-header-tabs">
+                <li class="nav-item">
+                  <a class="nav-link " id="events-list" href="#">My Events</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link active" id="events-map" href="#">Map</a>
+                </li>
+              </ul>
+            </div>
+            <div class="card-body">
+              <table class="table table-sm table-info" id="saved-events-list">
+                <thead>
+                  <tr>
+                    <th scope="col" colspan="2">Event</th>
+                    <th scope="col">Location</th>
+                    <th scope="col">Schedule</th>
+                    <th scope="col">Price Range</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Remove/Book</th>
+                  </tr>
+                </thead>
+                <tbody id="saved-events">
+                  <tr>
+                    <td colspan="2">Event</td>
+                    <td>Location</td>
+                    <td>Schedule</td>
+                    <td>Price Range</td>
+                    <td>Status</td>
+                    <td>Save</td>
+                  </tr>
+                </tbody>
+              </table>
+              <div id="saved-events-map" style="display: none"></div>
+            </div>
+          </div>
+        </div>
+        <div class="column col-1"></div>
+      </div>
+      <footer class="footer mt-auto pt-4">
+        <div class="container text-center">
+          <span class="text-muted">Chris//Rezwan//Shyam &copy</span>
+        </div>
+      </footer>
     </div>
   </body>
 </html>
