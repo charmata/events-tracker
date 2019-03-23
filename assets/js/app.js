@@ -129,7 +129,7 @@ function formatPrice(price, country) {
 
 $(document).ready(function() {
   var query, page, city, date, category;
-  $("#search").on("click", function() {
+  $("#search, #btn-search").on("click", function() {
     $("#next-page")
       .parent()
       .removeClass("disabled");
