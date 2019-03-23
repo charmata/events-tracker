@@ -11,11 +11,203 @@
       integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
       crossorigin="anonymous"
     />
-    <link rel="stylesheet" href="./assets/css/style.css" />
-    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" crossorigin="anonymous"></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+      integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+      integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+      crossorigin="anonymous"
+    ></script>
     <script src="https://www.gstatic.com/firebasejs/5.9.0/firebase.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
+      integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="./assets/css/style.css" />
     <script src="./assets/js/app.js"></script>
   </head>
-  <body></body>
+  <body>
+    <div class="container-fluid">
+      <nav class="navbar sticky-top navbar-expand-lg navbar-light bg-warning py-1">
+        <span class="navbar-brand text-info font-weight-bold" href="#">Events</span>
+        <div class="collapse navbar-collapse" id="navbarText">
+          <ul class="navbar-nav mr-auto w-100 d-flex justify-content-around">
+            <li class="nav-item">
+              <a class="nav-link" href="#">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">My Tracker</a>
+            </li>
+            <li>
+              <a class="nav-link" href="#" id="signin"> Sign In</a>
+            </li>
+            <li class="nav-item dropdown" id="signout" style="display: none">
+              <a
+                class="nav-link dropdown-toggle"
+                href="#"
+                id="navbarDropdown"
+                role="button"
+                data-toggle="dropdown"
+                aria-haspopup="true"
+                aria-expanded="false"
+              >
+                Sign In
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <a class="dropdown-item" href="#">Sign Out</a>
+                <a class="dropdown-item" href="#">Github Page</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="#">About</a>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </nav>
+      <div class="jumbotron bg-warning text-center py-4 mb-3">
+        <div class="row mt-4 mx-0">
+          <div class="column col-3"></div>
+          <div class="column col-6 input-group">
+            <input class="form-control" id="event-search" type="text" placeholder="Search for events" />
+            <div class="input-group-append">
+              <span class="input-group-text bg-info"><i id="fonticon-search" class="fas fa-search fa-fw"></i></span>
+            </div>
+          </div>
+          <div class="column col-3"></div>
+        </div>
+        <div class="row mt-4 mx-0">
+          <div class="column col-1"></div>
+          <div class="column col-10 d-flex justify-content-around">
+            <button class="btn btn-custom btn-info text-light">Event</button>
+            <button class="btn btn-custom btn-info text-light">Event</button>
+            <button class="btn btn-custom btn-info text-light">Event</button>
+            <button class="btn btn-custom btn-info text-light">Event</button>
+            <button class="btn btn-custom btn-info text-light">Event</button>
+            <button class="btn btn-custom btn-info text-light">Event</button>
+            <button class="btn btn-custom btn-info text-light">Event</button>
+          </div>
+          <div class="column col-1"></div>
+        </div>
+      </div>
+
+      <div class="row mt-2 mx-0">
+        <div class="column col-2"></div>
+        <div class="column col-8">
+          <form class="d-flex justify-content-around">
+            <div class="form-group">
+              <select class="form-control" id="cityList">
+                <option>Toronto</option>
+                <option>Vancouver</option>
+                <option>New York</option>
+                <option>Chicago</option>
+                <option>Boston</option>
+                <option>Calgary</option>
+                <option>Montreal</option>
+                <option>Florida</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <input type="date" class="form-control" id="start-date" />
+            </div>
+            <div class="form-group">
+              <button type="button" class="btn btn-info" id="btn-search">
+                Search
+              </button>
+            </div>
+          </form>
+        </div>
+        <div class="column col-2"></div>
+      </div>
+
+      <div class="row mt-2 mx-0">
+        <div class="column col-12">
+          <table class="table table-sm table-info">
+            <thead>
+              <tr>
+                <th scope="col" colspan="2">Event</th>
+                <th scope="col">Location</th>
+                <th scope="col">Schedule</th>
+                <th scope="col">Price Range</th>
+                <th scope="col">Status</th>
+                <th scope="col">Save</th>
+              </tr>
+            </thead>
+            <tbody id="event-details">
+              <tr>
+                <td colspan="2">Event</td>
+                <td>Location</td>
+                <td>Schedule</td>
+                <td>Price Range</td>
+                <td>Status</td>
+                <td>Save</td>
+              </tr>
+            </tbody>
+          </table>
+          <nav>
+            <ul class="pagination">
+              <li class="page-item">
+                <a class="page-link bg-info text-light" href="#" id="previous-page">Previous</a>
+              </li>
+              <li class="page-item"><a class="page-link bg-info text-light" href="#" id="next-page">Next</a></li>
+            </ul>
+          </nav>
+        </div>
+      </div>
+
+      <div class="row mt-4 mx-0">
+        <div class="column col-1"></div>
+        <div class="column col-10">
+          <div class="card text-center">
+            <div class="card-header bg-info">
+              <ul class="nav nav-tabs card-header-tabs">
+                <li class="nav-item">
+                  <a class="nav-link " id="events-list" href="#">My Events</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link active" id="events-map" href="#">Map</a>
+                </li>
+              </ul>
+            </div>
+            <div class="card-body">
+              <table class="table table-sm table-info" id="saved-events-list">
+                <thead>
+                  <tr>
+                    <th scope="col" colspan="2">Event</th>
+                    <th scope="col">Location</th>
+                    <th scope="col">Schedule</th>
+                    <th scope="col">Price Range</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Remove/Book</th>
+                  </tr>
+                </thead>
+                <tbody id="saved-events">
+                  <tr>
+                    <td colspan="2">Event</td>
+                    <td>Location</td>
+                    <td>Schedule</td>
+                    <td>Price Range</td>
+                    <td>Status</td>
+                    <td>Save</td>
+                  </tr>
+                </tbody>
+              </table>
+              <div id="saved-events-map" style="display: none"></div>
+            </div>
+          </div>
+        </div>
+        <div class="column col-1"></div>
+      </div>
+      <footer class="footer mt-auto pt-4">
+        <div class="container text-center">
+          <span class="text-muted">Chris//Rezwan//Shyam &copy</span>
+        </div>
+      </footer>
+    </div>
+  </body>
 </html>
