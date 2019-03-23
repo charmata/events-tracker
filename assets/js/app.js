@@ -71,7 +71,9 @@ function searchEvents(query, page, city, category, date) {
       $(eventName).append(eventLink);
       var eventLocation = $("<td>").text(data[id].venue);
       var eventSchedule = $("<td>").text(
-        data[id].date + " at " + data[id].time
+        moment(data[id].date).format("MMMM DD, YYYY") +
+          " at " +
+          moment(data[id].time, "H:mm:ss").format("h:mma")
       );
       var eventPriceRange = $("<td>").text(
         "$" + data[id].minPrice + " - $" + data[id].maxPrice
