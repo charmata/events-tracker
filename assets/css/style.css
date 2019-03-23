@@ -1,3 +1,6 @@
+* {
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande", "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+}
 .container-fluid {
   padding: 0;
 }
@@ -18,8 +21,17 @@
 
 .nav-menu,
 #signin,
+#signup,
+#navbarDropdown {
+  color: #17a2b8 !important;
+}
+
+#signin,
 #signup {
   color: #17a2b8 !important;
+  border: 2px solid #17a2b8 !important;
+  border-radius: 10%;
+  font-size: 0.9rem;
 }
 
 .nav-menu:hover {

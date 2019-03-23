@@ -9,6 +9,25 @@ $(document).ready(function() {
     $("#modal-signup").modal("show");
   });
 
+  var signedIn = currentUser => {
+    firebaseUID = currentUser.uid;
+    $("#signin").hide();
+    $("#signup").hide();
+    $("#signout")
+      .children("a")
+      .text(currentUser.displayName);
+    $("#signout").show();
+  };
+
+  var signedOut = () => {
+    $("#signin").show();
+    $("#signup").show();
+    $("#signout")
+      .children("a")
+      .text("");
+    $("#signout").hide();
+  };
+
   $("#btn-signup").on("click", function() {
     var userEmail = $("#signup-email")
       .val()
@@ -36,14 +55,8 @@ $(document).ready(function() {
             .then(function() {
               // console.log(newUser.displayName);
               // console.log(newUser.uid);
-              firebaseUID = newUser.uid;
               $("#modal-signup").modal("hide");
-              $("#signin").hide();
-              $("#signup").hide();
-              $("#signout")
-                .children("a")
-                .text(newUser.displayName);
-              $("#signout").show();
+              signedIn(newUser);
             })
             .catch(function(error) {
               console.log(error);
@@ -56,6 +69,10 @@ $(document).ready(function() {
         console.log(errorCode + " " + errorMessage);
         $("#invalid-input").text("Invalid Input!!");
       });
+
+    $("#signin-email").val("");
+    $("#signin-password").val("");
+    $("#signup-name").val("");
   });
 
   $("#btn-signin").on("click", function() {
@@ -72,15 +89,9 @@ $(document).ready(function() {
       .signInWithEmailAndPassword(userEmail, userPassword)
       .then(function(userObj) {
         var currentUser = firebase.auth().currentUser;
-
-        firebaseUID = currentUser.uid;
+        console.log(currentUser);
         $("#modal-signin").modal("hide");
-        $("#signin").hide();
-        $("#signup").hide();
-        $("#signout")
-          .children("a")
-          .text(currentUser.displayName);
-        $("#signout").show();
+        signedIn(currentUser);
       })
       .catch(function(error) {
         // Handle Errors here.
@@ -89,6 +100,9 @@ $(document).ready(function() {
         console.log(errorCode + " " + errorMessage);
         $("#invalid-credentials").text("Invalid Credentials!!");
       });
+
+    $("#signin-email").val("");
+    $("#signin-password").val("");
   });
 
   $("#btn-signup-cancel").on("click", function() {
@@ -97,5 +111,40 @@ $(document).ready(function() {
 
   $("#btn-signin-cancel").on("click", function() {
     $("#modal-signin").modal("hide");
+  });
+
+  firebase.auth().onAuthStateChanged(function(user) {
+    if (user) {
+      var currentUser = firebase.auth().currentUser;
+      console.log("Signed in");
+      signedIn(currentUser);
+    } else {
+      console.log("Signed Out");
+      signedOut();
+    }
+  });
+
+  firebase
+    .auth()
+    .setPersistence(firebase.auth.Auth.Persistence.SESSION)
+    .then(function() {})
+    .catch(function(error) {
+      var errorCode = error.code;
+      var errorMessage = error.message;
+    });
+
+  $("a[name=signout]").on("click", function() {
+    console.log("Text " + $(this).text());
+    firebase
+      .auth()
+      .signOut()
+      .then(
+        function() {
+          console.log("Signed Out");
+        },
+        function(error) {
+          console.error("Sign Out Error", error);
+        }
+      );
   });
 });

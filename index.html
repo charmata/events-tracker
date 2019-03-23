@@ -50,8 +50,8 @@
               <a class="nav-link nav-menu" href="#">My Tracker</a>
             </li>
             <li class="nav-item d-flex">
-              <span><a class="nav-link" href="#" id="signin"> Sign In</a></span>
-              <span><a class="nav-link" href="#" id="signup"> Sign Up</a></span>
+              <span><a class="nav-link m-1 p-1" href="#" id="signin"> Sign In</a></span>
+              <span><a class="nav-link m-1 p-1" href="#" id="signup"> Sign Up</a></span>
             </li>
             <li class="nav-item dropdown" id="signout" style="display: none">
               <a
@@ -65,10 +65,10 @@
               >
               </a>
               <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <a class="dropdown-item" href="#">Sign Out</a>
-                <a class="dropdown-item" href="#">Github Page</a>
+                <a class="dropdown-item" name="signout" href="#">Sign Out</a>
+                <a class="dropdown-item" name="github" href="#">Github Page</a>
                 <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="#">About</a>
+                <a class="dropdown-item" name="about" href="#">About</a>
               </div>
             </li>
           </ul>
@@ -149,7 +149,9 @@
                 <td>Schedule</td>
                 <td>Price Range</td>
                 <td>Status</td>
-                <td>Save</td>
+                <td>
+                  <a href="#"><i class="fa fa-save fa-fw text-info"></i></a>
+                </td>
               </tr>
             </tbody>
           </table>
@@ -210,7 +212,7 @@
       <div class="modal fade" id="modal-signin">
         <div class="modal-dialog modal-dialog-centered">
           <div class="modal-content modal-bg">
-            <div class="modal-header border-bottom-0 text-center">
+            <div class="modal-header border-bottom-0 pb-0 text-center">
               <h4 class="modal-title w-100">Sign In</h4>
               <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
             </div>
@@ -237,7 +239,7 @@
       <div class="modal fade" id="modal-signup">
         <div class="modal-dialog modal-dialog-centered">
           <div class="modal-content modal-bg">
-            <div class="modal-header border-bottom-0 text-center">
+            <div class="modal-header border-bottom-0 pb-0 text-center">
               <h4 class="modal-title w-100">Sign Up</h4>
               <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
             </div>
