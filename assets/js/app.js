@@ -118,17 +118,23 @@ $(document).ready(function() {
   });
   $("#next-page").on("click", function(e) {
     e.preventDefault();
-    console.log(page);
     if (page !== undefined) {
+      $("#previous-page")
+        .parent()
+        .removeClass("disabled");
       page++;
       searchEvents(query, page, city, date, category);
     }
   });
   $("#previous-page").on("click", function(e) {
     e.preventDefault();
-    console.log(page);
     if (page !== undefined && page !== 0) {
       page--;
+      if (page == 0) {
+        $("#previous-page")
+          .parent()
+          .addClass("disabled");
+      }
       searchEvents(query, page, city, date, category);
     }
   });

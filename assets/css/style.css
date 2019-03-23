@@ -39,3 +39,7 @@ li a:hover {
   background-color: white;
   color: #17a2b8 !important;
 }
+
+.page-item.disabled .page-link {
+  background-color: #17a2b89e !important;
+}
