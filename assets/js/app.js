@@ -14,19 +14,8 @@ var data = {};
 var endpoint = "https://app.ticketmaster.com/discovery/v2/events";
 var key = "iDRHy92FejlZujp04SMlt4ZiH2A1LpuY";
 
-var categories = {
-  sports: "KZFzniwnSyZfZ7v7nE",
-  concerts: "KZFzniwnSyZfZ7v7nJ",
-  arts: "KZFzniwnSyZfZ7v7na",
-  family: "KnvZfZ7vA1n",
-  film: "KZFzniwnSyZfZ7v7nn"
-};
-
-function searchEvents(query, page, city, category, date) {
+function searchEvents(query, page, city, date, category) {
   $("#event-details").empty();
-  if (!category) {
-    category = categories.sports;
-  }
   if (!date) {
     date = moment().format("YYYY-MM-DDTHH:mm:ssZ");
   } else {
@@ -120,6 +109,7 @@ $(document).ready(function() {
       .trim();
     var city = $("#cityList").val();
     var date = $("#start-date").val();
-    searchEvents(query, 0, city, null, date);
+    var category = $("#category-list").val();
+    searchEvents(query, 0, city, date, category);
   });
 });
