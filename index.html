@@ -39,7 +39,7 @@
   </head>
   <body>
     <div class="container-fluid">
-      <nav class="navbar sticky-top navbar-expand-lg navbar-light bg-warning py-1">
+      <nav class="navbar sticky-top navbar-expand-lg navbar-light py-1">
         <span class="navbar-brand text-info font-weight-bold" href="#">Events</span>
         <div class="collapse navbar-collapse" id="navbarText">
           <ul class="navbar-nav mr-auto w-100 d-flex justify-content-around">
@@ -74,7 +74,7 @@
           </ul>
         </div>
       </nav>
-      <div class="jumbotron bg-warning text-center py-4 mb-3">
+      <div class="jumbotron text-center py-4 mb-3">
         <div class="row mt-4 mx-0">
           <div class="column col-3"></div>
           <div class="column col-6 input-group">
@@ -224,8 +224,11 @@
                   <label for="signin-password">Password </label>
                   <input type="password" class="form-control" id="signin-password" />
                 </div>
-                <button type="button" class="btn btn-dark mt-2 float-left" id="btn-signin">
+                <button type="button" class="btn btn-modal mt-2 float-left" id="btn-signin">
                   Sign In
+                </button>
+                <button type="button" class="btn btn-modal mt-2 float-right" id="btn-signin-cancel">
+                  Cancel
                 </button>
               </form>
             </div>
@@ -253,8 +256,11 @@
                   <label for="signup-password">Password </label>
                   <input type="password" class="form-control" id="signup-password" />
                 </div>
-                <button type="button" class="btn btn-dark mt-2 float-left" id="btn-signup">
+                <button type="button" class="btn btn-modal mt-2 px-1 float-left" id="btn-signup">
                   Sign Up
+                </button>
+                <button type="button" class="btn btn-modal mt-2 px-1 float-right" id="btn-signup-cancel">
+                  Cancel
                 </button>
               </form>
             </div>

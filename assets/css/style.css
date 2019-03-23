@@ -8,10 +8,12 @@
 
 .navbar {
   border-bottom: 2px solid #17a2b8 !important;
+  background-color: #bee5eb;
 }
 
 .jumbotron {
   border-radius: 0;
+  background-color: #bee5eb;
 }
 
 .nav-menu,
@@ -48,10 +50,18 @@
   color: #17a2b8 !important;
 }
 
+.btn-modal {
+  background-color: #bee5eb;
+  color: #17a2b8 !important;
+  box-shadow: 2px 2px 2px #000;
+}
+
+.btn-modal:hover {
+  box-shadow: none;
+}
+
 .modal-bg {
   background: #17a2b8 !important;
-  /* linear-gradient(rgba(255, 193, 7, 0.5), rgba(255, 193, 7, 0.9)); */
-  /* border: 3px solid #ffc107; */
   color: #f8f9fa !important;
   font-weight: Bold;
   font-size: large;

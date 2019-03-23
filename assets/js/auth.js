@@ -32,8 +32,8 @@ $(document).ready(function() {
               displayName: userName
             })
             .then(function() {
-              console.log(newUser.displayName);
-              console.log(newUser.uid);
+              // console.log(newUser.displayName);
+              // console.log(newUser.uid);
               $("#modal-signup").modal("hide");
               $("#signin").hide();
               $("#signup").hide();
@@ -52,5 +52,13 @@ $(document).ready(function() {
         var errorMessage = error.message;
         console.log(errorCode + " " + errorMessage);
       });
+  });
+
+  $("#btn-signup-cancel").on("click", function() {
+    $("#modal-signup").modal("hide");
+  });
+
+  $("#btn-signin-cancel").on("click", function() {
+    $("#modal-signin").modal("hide");
   });
 });
