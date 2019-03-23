@@ -1,4 +1,6 @@
 $(document).ready(function() {
+  var firebaseUID = "";
+
   $("#signin").on("click", function() {
     $("#modal-signin").modal("show");
   });
@@ -34,6 +36,7 @@ $(document).ready(function() {
             .then(function() {
               // console.log(newUser.displayName);
               // console.log(newUser.uid);
+              firebaseUID = newUser.uid;
               $("#modal-signup").modal("hide");
               $("#signin").hide();
               $("#signup").hide();
@@ -51,6 +54,40 @@ $(document).ready(function() {
         var errorCode = error.code;
         var errorMessage = error.message;
         console.log(errorCode + " " + errorMessage);
+        $("#invalid-input").text("Invalid Input!!");
+      });
+  });
+
+  $("#btn-signin").on("click", function() {
+    var userEmail = $("#signin-email")
+      .val()
+      .trim();
+
+    var userPassword = $("#signin-password")
+      .val()
+      .trim();
+
+    firebase
+      .auth()
+      .signInWithEmailAndPassword(userEmail, userPassword)
+      .then(function(userObj) {
+        var currentUser = firebase.auth().currentUser;
+
+        firebaseUID = currentUser.uid;
+        $("#modal-signin").modal("hide");
+        $("#signin").hide();
+        $("#signup").hide();
+        $("#signout")
+          .children("a")
+          .text(currentUser.displayName);
+        $("#signout").show();
+      })
+      .catch(function(error) {
+        // Handle Errors here.
+        var errorCode = error.code;
+        var errorMessage = error.message;
+        console.log(errorCode + " " + errorMessage);
+        $("#invalid-credentials").text("Invalid Credentials!!");
       });
   });
 

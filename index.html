@@ -224,12 +224,11 @@
                   <label for="signin-password">Password </label>
                   <input type="password" class="form-control" id="signin-password" />
                 </div>
-                <button type="button" class="btn btn-modal mt-2 float-left" id="btn-signin">
-                  Sign In
-                </button>
-                <button type="button" class="btn btn-modal mt-2 float-right" id="btn-signin-cancel">
-                  Cancel
-                </button>
+                <div class="d-flex w-100 justify-content-between">
+                  <button type="button" class="btn btn-modal mt-2" id="btn-signin">Sign In</button>
+                  <h5 id="invalid-credentials" class="text-center pt-3 text-danger"></h5>
+                  <button type="button" class="btn btn-modal mt-2" id="btn-signin-cancel">Cancel</button>
+                </div>
               </form>
             </div>
           </div>
@@ -256,12 +255,11 @@
                   <label for="signup-password">Password </label>
                   <input type="password" class="form-control" id="signup-password" />
                 </div>
-                <button type="button" class="btn btn-modal mt-2 px-1 float-left" id="btn-signup">
-                  Sign Up
-                </button>
-                <button type="button" class="btn btn-modal mt-2 px-1 float-right" id="btn-signup-cancel">
-                  Cancel
-                </button>
+                <div class="d-flex w-100 justify-content-between">
+                  <button type="button" class="btn btn-modal mt-2 px-1" id="btn-signup">Sign Up</button>
+                  <h5 id="invalid-input" class="text-center pt-3 text-danger"></h5>
+                  <button type="button" class="btn btn-modal mt-2 px-1" id="btn-signup-cancel">Cancel</button>
+                </div>
               </form>
             </div>
           </div>
