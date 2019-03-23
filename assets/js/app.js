@@ -37,6 +37,7 @@ function searchEvents(query, page, city, category, date) {
     url: queryUrl
   }).then(function(response) {
     response._embedded.events.forEach(event => {
+      // Store data
       var id = event.id;
       data[id] = {};
       data[id].name = event.name;
@@ -58,6 +59,33 @@ function searchEvents(query, page, city, category, date) {
         data[id].minPrice = event.priceRanges[0].min;
         data[id].maxPrice = event.priceRanges[0].max;
       }
+
+      // Create table elements
+      var row = $("<tr>");
+      var eventName = $("<td>").attr("colspan", "2");
+      var eventLink = $("<a>")
+        .attr("href", data[id].link)
+        .attr("target", "_blank")
+        .text(data[id].name);
+      $(eventName).append(eventLink);
+      var eventLocation = $("<td>").text(data[id].venue);
+      var eventSchedule = $("<td>").text(
+        data[id].date + " at " + data[id].time
+      );
+      var eventPriceRange = $("<td>").text(
+        "$" + data[id].minPrice + " - $" + data[id].maxPrice
+      );
+      var eventStatus = $("<td>").text(data[id].status);
+      var eventSave = $("<td>").text(""); // Placeholder
+
+      // Append elements to table
+      $(row).append(eventName);
+      $(row).append(eventLocation);
+      $(row).append(eventSchedule);
+      $(row).append(eventPriceRange);
+      $(row).append(eventStatus);
+      $(row).append(eventSave);
+      $("#event-details").append(row);
     });
     console.log(data);
   });
