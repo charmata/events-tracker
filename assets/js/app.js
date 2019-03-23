@@ -62,3 +62,14 @@ function searchEvents(q, p, city, cat, date) {
     console.log(data);
   });
 }
+
+$(document).ready(function() {
+  $("#search").on("click", function() {
+    var query = $("#event-search")
+      .val()
+      .trim();
+    var city = $("#cityList").val();
+    var date = $("#start-date").val();
+    searchEvents(query, 0, city, null, date);
+  });
+});
