@@ -23,6 +23,7 @@ var categories = {
 };
 
 function searchEvents(query, page, city, category, date) {
+  $("#event-details").empty();
   if (!category) {
     category = categories.sports;
   }
