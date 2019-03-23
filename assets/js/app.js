@@ -21,7 +21,7 @@ function searchEvents(query, page, city, date, category) {
   } else {
     date = moment(date).format("YYYY-MM-DDTHH:mm:ssZ");
   }
-  var queryUrl = `${endpoint}?apikey=${key}&radius=40&unit=km&countryCode=CA&city=${city}&segmentId=${category}&startDateTime=${date}&sort=date,asc&size=5&page=${page}&keyword=${query}`;
+  var queryUrl = `${endpoint}?apikey=${key}&radius=40&unit=km&city=${city}&segmentId=${category}&startDateTime=${date}&sort=date,asc&size=5&page=${page}&keyword=${query}`;
 
   $.ajax({
     url: queryUrl
