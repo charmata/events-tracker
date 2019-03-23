@@ -15,7 +15,6 @@ var endpoint = "https://app.ticketmaster.com/discovery/v2/events";
 var key = "iDRHy92FejlZujp04SMlt4ZiH2A1LpuY";
 
 function searchEvents(query, page, city, date, category) {
-  $("#event-details").empty();
   if (!date) {
     date = moment().format("YYYY-MM-DDTHH:mm:ssZ");
   } else {
@@ -26,6 +25,7 @@ function searchEvents(query, page, city, date, category) {
   $.ajax({
     url: queryUrl
   }).then(function(response) {
+    $("#event-details").empty();
     var totalResults = response.page.totalElements;
     response._embedded.events.forEach(event => {
       // Store data
