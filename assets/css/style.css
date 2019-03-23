@@ -10,16 +10,24 @@
   border-bottom: 2px solid #17a2b8 !important;
 }
 
-li a {
-  color: #17a2b8 !important;
-}
-
 .jumbotron {
   border-radius: 0;
 }
 
-li a:hover {
+.nav-menu,
+#signin,
+#signup {
+  color: #17a2b8 !important;
+}
+
+.nav-menu:hover {
   box-shadow: 2px 2px 2px #17a2b8 !important;
+  font-weight: bold;
+}
+
+#signin:hover,
+#signup:hover {
+  box-shadow: none;
   font-weight: bold;
 }
 
@@ -38,4 +46,13 @@ li a:hover {
 #events-list {
   background-color: white;
   color: #17a2b8 !important;
+}
+
+.modal-bg {
+  background: #17a2b8 !important;
+  /* linear-gradient(rgba(255, 193, 7, 0.5), rgba(255, 193, 7, 0.9)); */
+  /* border: 3px solid #ffc107; */
+  color: #f8f9fa !important;
+  font-weight: Bold;
+  font-size: large;
 }
