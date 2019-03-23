@@ -28,34 +28,39 @@ function searchEvents(query, page, city, date, category) {
   }).then(function(response) {
     $("#event-details").empty();
     totalPages = response.page.totalPages;
-    response._embedded.events.forEach(event => {
-      // Store data
-      var id = event.id;
-      if (!data[id]) {
-        data[id] = {};
-        data[id].name = event.name;
-        data[id].link = event.url;
-        data[id].date = event.dates.start.localDate;
-        if (!event.dates.start.timeTBA) {
-          data[id].time = event.dates.start.localTime;
-        }
-        data[id].status = event.dates.status.code;
-        data[id].venue = event._embedded.venues[0].name;
-        data[id].latitude = event._embedded.venues[0].location.latitude;
-        data[id].longitude = event._embedded.venues[0].location.longitude;
-        event.images.forEach(image => {
-          if (image.width === 100) {
-            data[id].thumb = image.url;
+    if (response._embedded) {
+      response._embedded.events.forEach(event => {
+        // Store data
+        var id = event.id;
+        if (!data[id]) {
+          data[id] = {};
+          data[id].name = event.name;
+          data[id].link = event.url;
+          data[id].date = event.dates.start.localDate;
+          if (!event.dates.start.timeTBA) {
+            data[id].time = event.dates.start.localTime;
           }
-        });
-        if (event.priceRanges) {
-          data[id].minPrice = event.priceRanges[0].min;
-          data[id].maxPrice = event.priceRanges[0].max;
-          data[id].currency = event.priceRanges[0].currency;
+          data[id].status = event.dates.status.code;
+          data[id].venue = event._embedded.venues[0].name;
+          data[id].latitude = event._embedded.venues[0].location.latitude;
+          data[id].longitude = event._embedded.venues[0].location.longitude;
+          event.images.forEach(image => {
+            if (image.width === 100) {
+              data[id].thumb = image.url;
+            }
+          });
+          if (event.priceRanges) {
+            data[id].minPrice = event.priceRanges[0].min;
+            data[id].maxPrice = event.priceRanges[0].max;
+            data[id].currency = event.priceRanges[0].currency;
+          }
         }
-      }
-      addSearchRow(id);
-    });
+        addSearchRow(id);
+      });
+    } else {
+      var row = $("<tr>").html("<td>No results found</td>");
+      $("#event-details").append(row);
+    }
     console.log(data);
   });
 }
