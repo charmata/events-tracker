@@ -61,7 +61,7 @@ function searchEvents(query, page, city, category, date) {
       }
 
       // Create table elements
-      var row = $("<tr>");
+      var row = $("<tr>").attr("data-id", id);
       var eventName = $("<td>").attr("colspan", "2");
       var eventLink = $("<a>")
         .attr("href", data[id].link)
