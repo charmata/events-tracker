@@ -51,6 +51,7 @@ function searchEvents(query, page, city, date, category) {
         if (event.priceRanges) {
           data[id].minPrice = event.priceRanges[0].min;
           data[id].maxPrice = event.priceRanges[0].max;
+          data[id].currency = event.priceRanges[0].currency;
         }
       }
       addSearchRow(id);
@@ -85,9 +86,18 @@ function addSearchRow(id) {
   }
 
   if (data[id].minPrice) {
-    var eventPriceRange = $("<td>").text(
-      "$" + data[id].minPrice + " - $" + data[id].maxPrice
-    );
+    if (data[id].minPrice === data[id].maxPrice) {
+      var eventPriceRange = $("<td>").text(
+        formatPrice(data[id].minPrice, data[id].currency)
+      );
+    } else {
+      var eventPriceRange = $("<td>").text(
+        `${formatPrice(data[id].minPrice, data[id].currency)} - ${formatPrice(
+          data[id].maxPrice,
+          data[id].currency
+        )}`
+      );
+    }
   } else {
     var eventPriceRange = $("<td>").text("TBD");
   }
@@ -103,6 +113,18 @@ function addSearchRow(id) {
   $(row).append(eventStatus);
   $(row).append(eventSave);
   $("#event-details").append(row);
+}
+
+function formatPrice(price, country) {
+  var locales = {
+    CAD: "en-CA",
+    USD: "en-US"
+  };
+  var currency = new Intl.NumberFormat(locales[country], {
+    style: "currency",
+    currency: country
+  });
+  return currency.format(price);
 }
 
 $(document).ready(function() {
