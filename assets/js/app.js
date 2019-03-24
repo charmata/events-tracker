@@ -19,46 +19,56 @@ function searchEvents(query, page, city, date, category) {
   date = moment(date).format("YYYY-MM-DDTHH:mm:ssZ");
   var queryUrl = `${endpoint}?apikey=${key}&radius=40&unit=km&city=${city}&segmentId=${category}&startDateTime=${date}&sort=date,asc&size=5&page=${page}&keyword=${query}`;
 
-  $.ajax({
-    url: queryUrl
-  }).then(function(response) {
-    $("#event-details").empty();
-    totalPages = response.page.totalPages;
-    if (response._embedded) {
-      response._embedded.events.forEach(event => {
-        // Store data
-        var id = event.id;
-        if (!data[id]) {
-          data[id] = {};
-          data[id].name = event.name;
-          data[id].link = event.url;
-          data[id].date = event.dates.start.localDate;
-          if (!event.dates.start.timeTBA) {
-            data[id].time = event.dates.start.localTime;
-          }
-          data[id].status = event.dates.status.code;
-          data[id].venue = event._embedded.venues[0].name;
-          data[id].latitude = event._embedded.venues[0].location.latitude;
-          data[id].longitude = event._embedded.venues[0].location.longitude;
-          event.images.forEach(image => {
-            if (image.width === 100) {
-              data[id].thumb = image.url;
-            }
-          });
-          if (event.priceRanges) {
-            data[id].minPrice = event.priceRanges[0].min;
-            data[id].maxPrice = event.priceRanges[0].max;
-            data[id].currency = event.priceRanges[0].currency;
-          }
+  // Check if query exists in session storage before making a network request
+  if (sessionStorage.getItem(queryUrl)) {
+    parseData(JSON.parse(sessionStorage.getItem(queryUrl)));
+  } else {
+    $.ajax({
+      url: queryUrl
+    }).then(function(response) {
+      sessionStorage.setItem(queryUrl, JSON.stringify(response));
+      parseData(JSON.parse(sessionStorage.getItem(queryUrl)));
+    });
+  }
+}
+
+function parseData(response) {
+  $("#event-details").empty();
+  totalPages = response.page.totalPages;
+  if (response._embedded) {
+    response._embedded.events.forEach(event => {
+      // Store data
+      var id = event.id;
+      if (!data[id]) {
+        data[id] = {};
+        data[id].name = event.name;
+        data[id].link = event.url;
+        data[id].date = event.dates.start.localDate;
+        if (!event.dates.start.timeTBA) {
+          data[id].time = event.dates.start.localTime;
         }
-        addSearchRow(id);
-      });
-    } else {
-      var row = $("<tr>").html("<td>No results found</td>");
-      $("#event-details").append(row);
-    }
-    console.log(data);
-  });
+        data[id].status = event.dates.status.code;
+        data[id].venue = event._embedded.venues[0].name;
+        data[id].latitude = event._embedded.venues[0].location.latitude;
+        data[id].longitude = event._embedded.venues[0].location.longitude;
+        event.images.forEach(image => {
+          if (image.width === 100) {
+            data[id].thumb = image.url;
+          }
+        });
+        if (event.priceRanges) {
+          data[id].minPrice = event.priceRanges[0].min;
+          data[id].maxPrice = event.priceRanges[0].max;
+          data[id].currency = event.priceRanges[0].currency;
+        }
+      }
+      addSearchRow(id);
+    });
+  } else {
+    var row = $("<tr>").html("<td>No results found</td>");
+    $("#event-details").append(row);
+  }
+  console.log(data);
 }
 
 function addSearchRow(id) {
