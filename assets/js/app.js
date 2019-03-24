@@ -16,11 +16,7 @@ var endpoint = "https://app.ticketmaster.com/discovery/v2/events";
 var key = "iDRHy92FejlZujp04SMlt4ZiH2A1LpuY";
 
 function searchEvents(query, page, city, date, category) {
-  if (!date) {
-    date = moment().format("YYYY-MM-DDTHH:mm:ssZ");
-  } else {
-    date = moment(date).format("YYYY-MM-DDTHH:mm:ssZ");
-  }
+  date = moment(date).format("YYYY-MM-DDTHH:mm:ssZ");
   var queryUrl = `${endpoint}?apikey=${key}&radius=40&unit=km&city=${city}&segmentId=${category}&startDateTime=${date}&sort=date,asc&size=5&page=${page}&keyword=${query}`;
 
   $.ajax({
@@ -134,6 +130,9 @@ function formatPrice(price, country) {
 
 $(document).ready(function() {
   var query, page, city, date, category;
+
+  $("#start-date").val(moment().format("YYYY-MM-DD"));
+
   $("#search, #btn-search").on("click", function() {
     $("#next-page")
       .parent()
@@ -150,6 +149,7 @@ $(document).ready(function() {
     category = $("#category-list").val();
     searchEvents(query, page, city, date, category);
   });
+
   $("#next-page").on("click", function(e) {
     e.preventDefault();
     if (page !== undefined) {
@@ -169,6 +169,7 @@ $(document).ready(function() {
       }
     }
   });
+
   $("#previous-page").on("click", function(e) {
     e.preventDefault();
     if (page !== undefined && page !== 0) {
