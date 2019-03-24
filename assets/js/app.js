@@ -9,7 +9,6 @@ var config = {
 firebase.initializeApp(config);
 var database = firebase.database();
 
-var cache = {};
 var data = {};
 var totalPages;
 
@@ -20,15 +19,15 @@ function searchEvents(query, page, city, date, category) {
   date = moment(date).format("YYYY-MM-DDTHH:mm:ssZ");
   var queryUrl = `${endpoint}?apikey=${key}&radius=40&unit=km&city=${city}&segmentId=${category}&startDateTime=${date}&sort=date,asc&size=5&page=${page}&keyword=${query}`;
 
-  // Check if query exists in cache before making a network request
-  if (cache[queryUrl]) {
-    parseData(cache[queryUrl]);
+  // Check if query exists in session storage before making a network request
+  if (sessionStorage.getItem(queryUrl)) {
+    parseData(JSON.parse(sessionStorage.getItem(queryUrl)));
   } else {
     $.ajax({
       url: queryUrl
     }).then(function(response) {
-      cache[queryUrl] = response;
-      parseData(cache[queryUrl]);
+      sessionStorage.setItem(queryUrl, JSON.stringify(response));
+      parseData(JSON.parse(sessionStorage.getItem(queryUrl)));
     });
   }
 }
