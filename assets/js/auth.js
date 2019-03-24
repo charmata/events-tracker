@@ -11,21 +11,31 @@ $(document).ready(function() {
 
   var signedIn = currentUser => {
     firebaseUID = currentUser.uid;
+    // $("#signin")
+    //   .parent("li")
+    //   .hide();
     $("#signin").hide();
+    // $("#signup")
+    //   .parent("li")
+    //   .css("display", "none");
     $("#signup").hide();
     $("#signout")
       .children("a")
       .text(currentUser.displayName);
     $("#signout").show();
+    // $("#signout").css("display", "block");
   };
 
   var signedOut = () => {
     $("#signin").show();
+    // $("#signin").css("display", "block");
     $("#signup").show();
+    // $("#signup").css("display", "block");
     $("#signout")
       .children("a")
       .text("");
     $("#signout").hide();
+    // $("#signout").css("display", "none");
   };
 
   $("#btn-signup").on("click", function() {
