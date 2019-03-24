@@ -1,3 +1,6 @@
+* {
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande", "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+}
 .container-fluid {
   padding: 0;
 }
@@ -8,18 +11,37 @@
 
 .navbar {
   border-bottom: 2px solid #17a2b8 !important;
-}
-
-li a {
-  color: #17a2b8 !important;
+  background-color: #bee5eb;
 }
 
 .jumbotron {
   border-radius: 0;
+  background-color: #bee5eb;
 }
 
-li a:hover {
+.nav-menu,
+#signin,
+#signup,
+#navbarDropdown {
+  color: #17a2b8 !important;
+}
+
+#signin,
+#signup {
+  color: #17a2b8 !important;
+  border: 2px solid #17a2b8 !important;
+  border-radius: 10%;
+  font-size: 0.9rem;
+}
+
+.nav-menu:hover {
   box-shadow: 2px 2px 2px #17a2b8 !important;
+  font-weight: bold;
+}
+
+#signin:hover,
+#signup:hover {
+  box-shadow: none;
   font-weight: bold;
 }
 
@@ -38,4 +60,21 @@ li a:hover {
 #events-list {
   background-color: white;
   color: #17a2b8 !important;
+}
+
+.btn-modal {
+  background-color: #bee5eb;
+  color: #17a2b8 !important;
+  box-shadow: 2px 2px 2px #000;
+}
+
+.btn-modal:hover {
+  box-shadow: none;
+}
+
+.modal-bg {
+  background: #17a2b8 !important;
+  color: #f8f9fa !important;
+  font-weight: Bold;
+  font-size: large;
 }
