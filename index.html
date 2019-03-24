@@ -25,7 +25,10 @@
       integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
       crossorigin="anonymous"
     ></script>
-    <script src="https://www.gstatic.com/firebasejs/5.9.0/firebase.js"></script>
+    <!-- <script src="https://www.gstatic.com/firebasejs/5.9.0/firebase.js"></script> -->
+    <script src="https://www.gstatic.com/firebasejs/5.9.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.9.0/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.9.0/firebase-auth.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
     <link
       rel="stylesheet"
@@ -35,25 +38,23 @@
     />
     <link rel="stylesheet" href="./assets/css/style.css" />
     <script src="./assets/js/app.js"></script>
+    <script src="./assets/js/auth.js"></script>
   </head>
   <body>
     <div class="container-fluid">
-      <nav
-        class="navbar sticky-top navbar-expand-lg navbar-light bg-warning py-1"
-      >
-        <span class="navbar-brand text-info font-weight-bold" href="#"
-          >Events</span
-        >
+      <nav class="navbar sticky-top navbar-expand-lg navbar-light py-1">
+        <span class="navbar-brand text-info font-weight-bold" href="#">Events</span>
         <div class="collapse navbar-collapse" id="navbarText">
           <ul class="navbar-nav mr-auto w-100 d-flex justify-content-around">
             <li class="nav-item">
-              <a class="nav-link" href="#">Home</a>
+              <a class="nav-link nav-menu" href="#">Home</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">My Tracker</a>
+              <a class="nav-link nav-menu" href="#">My Tracker</a>
             </li>
-            <li>
-              <a class="nav-link" href="#" id="signin"> Sign In</a>
+            <li class="nav-item d-flex">
+              <span><a class="nav-link m-1 p-1" href="#" id="signin"> Sign In</a></span>
+              <span><a class="nav-link m-1 p-1" href="#" id="signup"> Sign Up</a></span>
             </li>
             <li class="nav-item dropdown" id="signout" style="display: none">
               <a
@@ -65,19 +66,18 @@
                 aria-haspopup="true"
                 aria-expanded="false"
               >
-                Sign In
               </a>
               <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <a class="dropdown-item" href="#">Sign Out</a>
-                <a class="dropdown-item" href="#">Github Page</a>
+                <a class="dropdown-item" name="signout" href="#">Sign Out</a>
+                <a class="dropdown-item" name="github" href="#">Github Page</a>
                 <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="#">About</a>
+                <a class="dropdown-item" name="about" href="#">About</a>
               </div>
             </li>
           </ul>
         </div>
       </nav>
-      <div class="jumbotron bg-warning text-center py-4 mb-3">
+      <div class="jumbotron text-center py-4 mb-3">
         <div class="row mt-4 mx-0">
           <div class="column col-3"></div>
           <div class="column col-6 input-group">
@@ -161,7 +161,18 @@
                 <th scope="col">Save</th>
               </tr>
             </thead>
-            <tbody id="event-details"></tbody>
+            <tbody id="event-details">
+              <tr>
+                <td colspan="2">Event</td>
+                <td>Location</td>
+                <td>Schedule</td>
+                <td>Price Range</td>
+                <td>Status</td>
+                <td>
+                  <a href="#"><i class="fa fa-save fa-fw text-info"></i></a>
+                </td>
+              </tr>
+            </tbody>
           </table>
           <nav>
             <ul class="pagination">
@@ -225,6 +236,64 @@
           </div>
         </div>
         <div class="column col-1"></div>
+      </div>
+      <div class="modal fade" id="modal-signin">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content modal-bg">
+            <div class="modal-header border-bottom-0 pb-0 text-center">
+              <h4 class="modal-title w-100">Sign In</h4>
+              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            </div>
+            <div class="modal-body">
+              <form>
+                <div class="form-group">
+                  <label for="signin-email">Email</label>
+                  <input type="email" class="form-control" id="signin-email" />
+                </div>
+                <div class="form-group">
+                  <label for="signin-password">Password </label>
+                  <input type="password" class="form-control" id="signin-password" />
+                </div>
+                <div class="d-flex w-100 justify-content-between">
+                  <button type="button" class="btn btn-modal mt-2" id="btn-signin">Sign In</button>
+                  <h5 id="invalid-credentials" class="text-center pt-3 text-danger"></h5>
+                  <button type="button" class="btn btn-modal mt-2" id="btn-signin-cancel">Cancel</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal fade" id="modal-signup">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content modal-bg">
+            <div class="modal-header border-bottom-0 pb-0 text-center">
+              <h4 class="modal-title w-100">Sign Up</h4>
+              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            </div>
+            <div class="modal-body">
+              <form>
+                <div class="form-group">
+                  <label for="signup-email">Email</label>
+                  <input type="email" class="form-control" id="signup-email" />
+                </div>
+                <div class="form-group">
+                  <label for="signup-name">Full Name</label>
+                  <input type="email" class="form-control" id="signup-name" />
+                </div>
+                <div class="form-group">
+                  <label for="signup-password">Password </label>
+                  <input type="password" class="form-control" id="signup-password" />
+                </div>
+                <div class="d-flex w-100 justify-content-between">
+                  <button type="button" class="btn btn-modal mt-2 px-1" id="btn-signup">Sign Up</button>
+                  <h5 id="invalid-input" class="text-center pt-3 text-danger"></h5>
+                  <button type="button" class="btn btn-modal mt-2 px-1" id="btn-signup-cancel">Cancel</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
       </div>
       <footer class="footer mt-auto pt-4">
         <div class="container text-center">
