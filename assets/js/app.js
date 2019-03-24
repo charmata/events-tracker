@@ -107,12 +107,13 @@ function addSearchRow(id) {
   var eventSave = $("<td>").text(""); // Placeholder
 
   // Append elements to table
-  $(row).append(eventName);
-  $(row).append(eventLocation);
-  $(row).append(eventSchedule);
-  $(row).append(eventPriceRange);
-  $(row).append(eventStatus);
-  $(row).append(eventSave);
+  $(row)
+    .append(eventName)
+    .append(eventLocation)
+    .append(eventSchedule)
+    .append(eventPriceRange)
+    .append(eventStatus)
+    .append(eventSave);
   $("#event-details").append(row);
 }
 
