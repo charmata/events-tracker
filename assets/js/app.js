@@ -198,4 +198,17 @@ $(document).ready(function() {
       searchEvents(query, page, city, date, category);
     }
   });
+
+  firebase.auth().onAuthStateChanged(function(user) {
+    if (user) {
+      var userRef = database.ref("events-tracker/" + user.uid);
+      userRef.once("value").then(function(snapshot) {
+        if (!snapshot.exists()) {
+          userRef.set({
+            name: user.displayName
+          });
+        }
+      });
+    }
+  });
 });
