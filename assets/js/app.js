@@ -134,6 +134,59 @@ function addSearchRow(id) {
   $("#event-details").append(row);
 }
 
+function addSavedRow(eventKey, eventData) {
+  // Create table elements
+  var row = $("<tr>").attr("data-id", eventKey);
+
+  var eventName = $("<td>").attr("colspan", "2");
+  var eventLink = $("<a>")
+    .attr("href", eventData.link)
+    .attr("target", "_blank")
+    .text(eventData.name);
+  $(eventName).append(eventLink);
+
+  var eventLocation = $("<td>").text(eventData.venue);
+
+  if (eventData.time) {
+    var eventSchedule = $("<td>").text(
+      moment(eventData.date).format("MMM DD, YYYY") +
+        " at " +
+        moment(eventData.time, "H:mm:ss").format("h:mma")
+    );
+  } else {
+    var eventSchedule = $("<td>").text(moment(eventData.date).format("MMM DD, YYYY"));
+  }
+
+  if (eventData.minPrice) {
+    if (eventData.minPrice === eventData.maxPrice) {
+      var eventPriceRange = $("<td>").text(formatPrice(eventData.minPrice, eventData.currency));
+    } else {
+      var eventPriceRange = $("<td>").text(
+        `${formatPrice(eventData.minPrice, eventData.currency)} - ${formatPrice(
+          eventData.maxPrice,
+          eventData.currency
+        )}`
+      );
+    }
+  } else {
+    var eventPriceRange = $("<td>").text("TBD");
+  }
+
+  var eventStatus = $("<td>").text(eventData.status);
+
+  var eventRemove = $("<td>").text("");
+
+  // Append elements to table
+  $(row)
+    .append(eventName)
+    .append(eventLocation)
+    .append(eventSchedule)
+    .append(eventPriceRange)
+    .append(eventStatus)
+    .append(eventRemove);
+  $("#saved-events").append(row);
+}
+
 function formatPrice(price, country) {
   var locales = {
     CAD: "en-CA",
@@ -231,5 +284,10 @@ $(document).ready(function() {
     } else {
       isAuth = false;
     }
+
+    var eventsRef = database.ref("events-tracker/" + user.uid + "/event-details");
+    eventsRef.on("child_added", function(snapshot) {
+      addSavedRow(snapshot.key, snapshot.val());
+    });
   });
 });
