@@ -9,6 +9,7 @@ var config = {
 firebase.initializeApp(config);
 var database = firebase.database();
 
+var isAuth = false;
 var data = {};
 var totalPages;
 
@@ -91,16 +92,12 @@ function addSearchRow(id) {
         moment(data[id].time, "H:mm:ss").format("h:mma")
     );
   } else {
-    var eventSchedule = $("<td>").text(
-      moment(data[id].date).format("MMM DD, YYYY")
-    );
+    var eventSchedule = $("<td>").text(moment(data[id].date).format("MMM DD, YYYY"));
   }
 
   if (data[id].minPrice) {
     if (data[id].minPrice === data[id].maxPrice) {
-      var eventPriceRange = $("<td>").text(
-        formatPrice(data[id].minPrice, data[id].currency)
-      );
+      var eventPriceRange = $("<td>").text(formatPrice(data[id].minPrice, data[id].currency));
     } else {
       var eventPriceRange = $("<td>").text(
         `${formatPrice(data[id].minPrice, data[id].currency)} - ${formatPrice(
@@ -114,7 +111,17 @@ function addSearchRow(id) {
   }
 
   var eventStatus = $("<td>").text(data[id].status);
-  var eventSave = $("<td>").text(""); // Placeholder
+
+  if (isAuth) {
+    var eventSave = $("<td>");
+    var eventSaveLink = $("<a>")
+      .attr("href", "#")
+      .addClass("save-event");
+    var eventSaveIcon = $("<i>").addClass("fa fa-save fa-fw text-info");
+
+    $(eventSaveLink).append(eventSaveIcon);
+    $(eventSave).append(eventSaveLink);
+  }
 
   // Append elements to table
   $(row)
@@ -201,6 +208,7 @@ $(document).ready(function() {
 
   firebase.auth().onAuthStateChanged(function(user) {
     if (user) {
+      isAuth = true;
       var userRef = database.ref("events-tracker/" + user.uid);
       userRef.once("value").then(function(snapshot) {
         if (!snapshot.exists()) {
@@ -209,6 +217,8 @@ $(document).ready(function() {
           });
         }
       });
+    } else {
+      isAuth = false;
     }
   });
 });
