@@ -206,6 +206,17 @@ $(document).ready(function() {
     }
   });
 
+  $("body").on("click", ".save-event", function(e) {
+    e.preventDefault();
+    var eventId = $(this)
+      .parent()
+      .parent()
+      .attr("data-id");
+    var userId = firebase.auth().currentUser.uid;
+    var eventRef = database.ref("events-tracker/" + userId + "/event-details/" + eventId);
+    eventRef.set(data[eventId]);
+  });
+
   firebase.auth().onAuthStateChanged(function(user) {
     if (user) {
       isAuth = true;
