@@ -281,6 +281,8 @@ $(document).ready(function() {
     if (user) {
       // When signed in
       isAuth = true;
+      $("#signin-content").show();
+
       var userRef = database.ref("events-tracker/" + user.uid);
       userRef.once("value").then(function(snapshot) {
         if (!snapshot.exists()) {
@@ -301,6 +303,7 @@ $(document).ready(function() {
       isAuth = false;
       database.ref().off("child_added");
       $("#saved-events").empty();
+      $("#signin-content").hide();
     }
   });
 });
