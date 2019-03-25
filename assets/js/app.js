@@ -179,7 +179,14 @@ function addSavedRow(eventKey, eventData) {
 
   var eventStatus = $("<td>").text(eventData.status);
 
-  var eventRemove = $("<td>").text("");
+  var eventRemove = $("<td>");
+  var eventRemoveLink = $("<a>")
+    .attr("href", "#")
+    .addClass("remove-event");
+  var eventRemoveIcon = $("<i>").addClass("fa fa-trash-alt fa-fw text-info");
+
+  $(eventRemoveLink).append(eventRemoveIcon);
+  $(eventRemove).append(eventRemoveLink);
 
   // Append elements to table
   $(row)
