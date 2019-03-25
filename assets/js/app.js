@@ -290,15 +290,17 @@ $(document).ready(function() {
           });
         }
       });
+
+      var eventsRef = database.ref("events-tracker/" + user.uid + "/event-details");
+      eventsRef.on("child_added", function(snapshot) {
+        // Listen for saved events and add to table
+        addSavedRow(snapshot.key, snapshot.val());
+      });
     } else {
       // When signed out
       isAuth = false;
+      database.ref().off("child_added");
+      $("#saved-events").empty();
     }
-
-    var eventsRef = database.ref("events-tracker/" + user.uid + "/event-details");
-    eventsRef.on("child_added", function(snapshot) {
-      // Listen for saved events and add to table
-      addSavedRow(snapshot.key, snapshot.val());
-    });
   });
 });
