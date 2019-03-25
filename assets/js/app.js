@@ -284,6 +284,18 @@ $(document).ready(function() {
     eventRef.set(data[eventId]);
   });
 
+  $("body").on("click", ".remove-event", function(e) {
+    e.preventDefault();
+    var row = $(this)
+      .parent()
+      .parent();
+    var eventId = row.attr("data-id");
+    var userId = firebase.auth().currentUser.uid;
+    var eventRef = database.ref("events-tracker/" + userId + "/event-details/" + eventId);
+    eventRef.remove();
+    row.remove();
+  });
+
   firebase.auth().onAuthStateChanged(function(user) {
     if (user) {
       // When signed in
