@@ -27,6 +27,9 @@
     <script src="https://www.gstatic.com/firebasejs/5.9.0/firebase-database.js"></script>
     <script src="https://www.gstatic.com/firebasejs/5.9.0/firebase-auth.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mapbox-gl/0.53.1/mapbox-gl.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mapbox-gl/0.53.1/mapbox-gl.js"></script>
+
     <link
       rel="stylesheet"
       href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
@@ -36,6 +39,7 @@
     <link rel="stylesheet" href="./assets/css/style.css" />
     <script src="./assets/js/app.js"></script>
     <script src="./assets/js/auth.js"></script>
+    <script src="./assets/js/map.js"></script>
   </head>
   <body>
     <div class="container-fluid">
@@ -94,13 +98,13 @@
         <div class="row mt-4 mx-0">
           <div class="column col-1"></div>
           <div class="column col-10 d-flex justify-content-around">
-            <button class="btn btn-custom btn-info text-light">Event</button>
-            <button class="btn btn-custom btn-info text-light">Event</button>
-            <button class="btn btn-custom btn-info text-light">Event</button>
-            <button class="btn btn-custom btn-info text-light">Event</button>
-            <button class="btn btn-custom btn-info text-light">Event</button>
-            <button class="btn btn-custom btn-info text-light">Event</button>
-            <button class="btn btn-custom btn-info text-light">Event</button>
+            <button class="btn btn-custom btn-info text-light">Raptors</button>
+            <button class="btn btn-custom btn-info text-light">Maple Leafs</button>
+            <button class="btn btn-custom btn-info text-light">Jazz</button>
+            <button class="btn btn-custom btn-info text-light">Metal</button>
+            <button class="btn btn-custom btn-info text-light">WWE</button>
+            <button class="btn btn-custom btn-info text-light">Harry Potter</button>
+            <button class="btn btn-custom btn-info text-light">Blue Jays</button>
           </div>
           <div class="column col-1"></div>
         </div>
@@ -224,7 +228,7 @@
                   </table>
                 </div>
                 <div class="tab-pane" id="tab2">
-                  <div id="saved-events-map" style="display: none"></div>
+                  <div id="saved-events-map" style="width: 600px; height: 600px"></div>
                 </div>
               </div>
             </div>
