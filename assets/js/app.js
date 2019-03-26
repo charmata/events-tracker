@@ -280,7 +280,7 @@ $(document).ready(function() {
       .parent()
       .attr("data-id");
     var userId = firebase.auth().currentUser.uid;
-    var eventRef = database.ref("events-tracker/" + userId + "/event-details/" + eventId);
+    var eventRef = database.ref(`events-tracker/${userId}/event-details/${eventId}`);
     eventRef.set(data[eventId]);
   });
 
@@ -291,7 +291,7 @@ $(document).ready(function() {
       .parent();
     var eventId = row.attr("data-id");
     var userId = firebase.auth().currentUser.uid;
-    var eventRef = database.ref("events-tracker/" + userId + "/event-details/" + eventId);
+    var eventRef = database.ref(`events-tracker/${userId}/event-details/${eventId}`);
     eventRef.remove();
     row.remove();
   });
@@ -302,7 +302,7 @@ $(document).ready(function() {
       isAuth = true;
       $("#signin-content").show();
 
-      var userRef = database.ref("events-tracker/" + user.uid);
+      var userRef = database.ref(`events-tracker/${user.uid}`);
       userRef.once("value").then(function(snapshot) {
         if (!snapshot.exists()) {
           // Add user to database if they don't already exist
@@ -312,7 +312,7 @@ $(document).ready(function() {
         }
       });
 
-      var eventsRef = database.ref("events-tracker/" + user.uid + "/event-details");
+      var eventsRef = database.ref(`events-tracker/${user.uid}/event-details`);
       eventsRef.on("child_added", function(snapshot) {
         // Listen for saved events and add to table
         addSavedRow(snapshot.key, snapshot.val());
