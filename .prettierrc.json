@@ -1,10 +1,10 @@
 {
-  "printWidth": 100,
+  "printWidth": 120,
   "overrides": [
     {
       "files": "*.html",
       "options": {
-        "printWidth": 0
+        "printWidth": 120
       }
     }
   ]
