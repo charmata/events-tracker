@@ -11,6 +11,13 @@
       integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
       crossorigin="anonymous"
     />
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
+      integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="./assets/css/style.css" />
     <script src="https://code.jquery.com/jquery-3.3.1.min.js" crossorigin="anonymous"></script>
     <script
       src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
@@ -22,18 +29,10 @@
       integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
       crossorigin="anonymous"
     ></script>
-    <!-- <script src="https://www.gstatic.com/firebasejs/5.9.0/firebase.js"></script> -->
     <script src="https://www.gstatic.com/firebasejs/5.9.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/5.9.0/firebase-database.js"></script>
     <script src="https://www.gstatic.com/firebasejs/5.9.0/firebase-auth.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
-    <link
-      rel="stylesheet"
-      href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
-      integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf"
-      crossorigin="anonymous"
-    />
-    <link rel="stylesheet" href="./assets/css/style.css" />
     <script src="./assets/js/app.js"></script>
     <script src="./assets/js/auth.js"></script>
   </head>
@@ -157,18 +156,7 @@
                 <th scope="col">Save</th>
               </tr>
             </thead>
-            <tbody id="event-details">
-              <tr>
-                <td colspan="2">Event</td>
-                <td>Location</td>
-                <td>Schedule</td>
-                <td>Price Range</td>
-                <td>Status</td>
-                <td>
-                  <a href="#"><i class="fa fa-save fa-fw text-info"></i></a>
-                </td>
-              </tr>
-            </tbody>
+            <tbody id="event-details"></tbody>
           </table>
           <nav>
             <ul class="pagination">
@@ -183,7 +171,7 @@
         </div>
       </div>
 
-      <div class="row mt-4 mx-0">
+      <div id="signin-content" class="row mt-4 mx-0" style="display:none;">
         <div class="column col-1"></div>
         <div class="column col-10">
           <div class="card text-center">
@@ -208,19 +196,10 @@
                         <th scope="col">Schedule</th>
                         <th scope="col">Price Range</th>
                         <th scope="col">Status</th>
-                        <th scope="col">Remove/Book</th>
+                        <th scope="col">Remove</th>
                       </tr>
                     </thead>
-                    <tbody id="saved-events">
-                      <tr>
-                        <td colspan="2">Event</td>
-                        <td>Location</td>
-                        <td>Schedule</td>
-                        <td>Price Range</td>
-                        <td>Status</td>
-                        <td>Save</td>
-                      </tr>
-                    </tbody>
+                    <tbody id="saved-events"></tbody>
                   </table>
                 </div>
                 <div class="tab-pane" id="tab2">
