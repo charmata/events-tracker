@@ -43,22 +43,29 @@ function parseData(response) {
       // Store data
       var id = event.id;
       if (!data[id]) {
-        data[id] = {};
-        data[id].name = event.name;
-        data[id].link = event.url;
-        data[id].date = event.dates.start.localDate;
+        data[id] = {
+          name: event.name,
+          link: event.url,
+          date: event.dates.start.localDate,
+          status: event.dates.status.code,
+          venue: event._embedded.venues[0].name,
+          latitude: event._embedded.venues[0].location.latitude,
+          longitude: event._embedded.venues[0].location.longitude
+        };
+
+        // Time is not always present
         if (!event.dates.start.timeTBA) {
           data[id].time = event.dates.start.localTime;
         }
-        data[id].status = event.dates.status.code;
-        data[id].venue = event._embedded.venues[0].name;
-        data[id].latitude = event._embedded.venues[0].location.latitude;
-        data[id].longitude = event._embedded.venues[0].location.longitude;
+
+        // Look for image which is exactly 100px
         event.images.forEach(image => {
           if (image.width === 100) {
             data[id].thumb = image.url;
           }
         });
+
+        // Pricing is not always available
         if (event.priceRanges) {
           data[id].minPrice = event.priceRanges[0].min;
           data[id].maxPrice = event.priceRanges[0].max;
