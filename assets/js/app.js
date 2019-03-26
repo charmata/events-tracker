@@ -306,9 +306,7 @@ $(document).ready(function() {
       userRef.once("value").then(function(snapshot) {
         if (!snapshot.exists()) {
           // Add user to database if they don't already exist
-          userRef.set({
-            name: user.displayName
-          });
+          userRef.set({ "event-details": "" });
         }
       });
 
