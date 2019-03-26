@@ -98,3 +98,7 @@
   color: #17a2b8 !important;
   font-size: 1rem;
 }
+
+table a:hover {
+  text-decoration: none;
+}
