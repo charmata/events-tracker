@@ -92,8 +92,13 @@ function addSearchRow(id) {
   var eventName = $("<td>").attr("colspan", "2");
   var eventLink = $("<a>")
     .attr("href", data[id].link)
-    .attr("target", "_blank")
-    .text(data[id].name);
+    .attr("target", "_blank");
+  var eventLinkIcon = $("<i>")
+    .addClass("fa fa-info-circle fa-fw text-info")
+    .css("margin-right", "5px");
+  var eventLinkText = $("<span>").text(data[id].name);
+
+  $(eventLink).append(eventLinkIcon, eventLinkText);
   $(eventName).append(eventLink);
 
   var eventLocation = $("<td>").text(`${data[id].venue.name}, ${data[id].venue.city}`);
@@ -145,17 +150,20 @@ function addSavedRow(eventKey, eventData) {
   var eventName = $("<td>").attr("colspan", "2");
   var eventLink = $("<a>")
     .attr("href", eventData.link)
-    .attr("target", "_blank")
-    .text(eventData.name);
+    .attr("target", "_blank");
+  var eventLinkIcon = $("<i>")
+    .addClass("fa fa-info-circle fa-fw text-info")
+    .css("margin-right", "5px");
+  var eventLinkText = $("<span>").text(eventData.name);
+
+  $(eventLink).append(eventLinkIcon, eventLinkText);
   $(eventName).append(eventLink);
 
   var eventLocation = $("<td>").text(`${eventData.venue.name}, ${eventData.venue.city}`);
 
   if (eventData.time) {
     var eventSchedule = $("<td>").text(
-      moment(eventData.date).format("MMM DD, YYYY") +
-        " at " +
-        moment(eventData.time, "H:mm:ss").format("h:mma")
+      moment(eventData.date).format("MMM DD, YYYY") + " at " + moment(eventData.time, "H:mm:ss").format("h:mma")
     );
   } else {
     var eventSchedule = $("<td>").text(moment(eventData.date).format("MMM DD, YYYY"));
