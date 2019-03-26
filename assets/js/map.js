@@ -24,28 +24,12 @@ $(document).ready(function() {
 
     $(divElem).append(h3Elem, dateElem, statusElem);
 
-    var popup = new mapboxgl.Popup({ offset: 25, className: "marker-popup" }).setDOMContent(divElem[0]);
+    // var popup = new mapboxgl.Popup({ offset: 25, className: "marker-popup" }).setDOMContent(divElem[0]);
 
-    // if (markerCollection.length > 0) {
-    //   markerCollection.forEach(element => {
-    //     console.log(element.getLngLat().toArray());
-    //     console.log("Lng: " + eventLongitude);
-    //     console.log("Lat: " + eventLatitude);
-    //     existingLngLat = element.getLngLat().toArray();
-    //     if (eventLongitude === existingLngLat[0] && eventLatitude === existingLngLat[1]) {
-    //       xOffset = -0.2;
-    //       yOffset = -0.1;
-    //     }
-    //   });
-    // }
-
-    var marker = new mapboxgl.Marker()
-      .setLngLat([eventLongitude, eventLatitude])
-      .setPopup(popup)
-      .addTo(map);
-    // markerCollection.push(marker);
-    // xOffset = 0;
-    // yOffset = 0;
+    // var marker = new mapboxgl.Marker()
+    //   .setLngLat([eventLongitude, eventLatitude])
+    //   .setPopup(popup)
+    //   .addTo(map);
   };
 
   firebase.auth().onAuthStateChanged(function(user) {
@@ -53,20 +37,25 @@ $(document).ready(function() {
       currentUser = firebase.auth().currentUser;
       // console.log("Signed in");
       // console.log("User: " + currentUser);
-      mapboxgl.accessToken =
+      L.mapbox.accessToken =
         "pk.eyJ1IjoidG9zaHlhbXN1bmRhciIsImEiOiJjanRoazR5M2wwOHU0NDNsZTJmNHRwYjM1In0.9ID0Zv8TuBqLP0r6NYiSSQ";
       var mapDatabaseRef = database.ref("events-tracker/p2K1huQpB0fSMBhho64NdidGn6F3/event-details");
-      map = new mapboxgl.Map({
-        container: "saved-events-map",
-        style: "mapbox://styles/mapbox/streets-v11"
-      });
+      map = L.mapbox
+        .map("saved-events-map")
+        .setView([-100.623177, 45.881832], 4)
+        .addLayer(L.mapbox.styleLayer("mapbox://styles/mapbox/streets-v11"));
 
       mapDatabaseRef.on("child_added", function(eventSnapshot) {
         plotMarker(eventSnapshot);
       });
 
-      map.setZoom(3);
-      map.setCenter([-100.623177, 45.881832]);
+      var markers = new L.newMarkerClusterGroup();
+      var geoJsonLayer = L.geoJson(geoEventObject, {
+        onEachFeature: onEachEventFeature
+      });
+
+      markers.addLayer(geoJsonLayer);
+      map.addLayer(markers);
     } else {
       console.log("Signed Out");
     }
