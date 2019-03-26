@@ -133,13 +133,7 @@ function addSearchRow(id) {
   }
 
   // Append elements to table
-  $(row)
-    .append(eventName)
-    .append(eventLocation)
-    .append(eventSchedule)
-    .append(eventPriceRange)
-    .append(eventStatus)
-    .append(eventSave);
+  $(row).append(eventName, eventLocation, eventSchedule, eventPriceRange, eventStatus, eventSave);
   $("#event-details").append(row);
 }
 
@@ -194,13 +188,7 @@ function addSavedRow(eventKey, eventData) {
   $(eventRemove).append(eventRemoveLink);
 
   // Append elements to table
-  $(row)
-    .append(eventName)
-    .append(eventLocation)
-    .append(eventSchedule)
-    .append(eventPriceRange)
-    .append(eventStatus)
-    .append(eventRemove);
+  $(row).append(eventName, eventLocation, eventSchedule, eventPriceRange, eventStatus, eventRemove);
   $("#saved-events").append(row);
 }
 
