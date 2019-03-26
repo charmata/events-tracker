@@ -307,14 +307,6 @@ $(document).ready(function() {
       isAuth = true;
       $("#signin-content").show();
 
-      var userRef = database.ref(`events-tracker/${user.uid}`);
-      userRef.once("value").then(function(snapshot) {
-        if (!snapshot.exists()) {
-          // Add user to database if they don't already exist
-          userRef.set({ "event-details": "" });
-        }
-      });
-
       var eventsRef = database.ref(`events-tracker/${user.uid}/event-details`);
       eventsRef.orderByChild("date").on("child_added", function(snapshot) {
         // Listen for saved events and add to table
