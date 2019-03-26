@@ -92,3 +92,9 @@
   outline: 0 !important;
   box-shadow: none !important;
 }
+
+.marker-popup {
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande", "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+  color: #17a2b8 !important;
+  font-size: 1rem;
+}
