@@ -9,12 +9,14 @@ var config = {
 firebase.initializeApp(config);
 var database = firebase.database();
 
+var isAuth = false;
 var data = {};
 var totalPages;
 
 var endpoint = "https://app.ticketmaster.com/discovery/v2/events";
 var key = "iDRHy92FejlZujp04SMlt4ZiH2A1LpuY";
 
+// Queries the api or loads a saved response from session storage
 function searchEvents(query, page, city, date, category) {
   date = moment(date).format("YYYY-MM-DDTHH:mm:ssZ");
   var queryUrl = `${endpoint}?apikey=${key}&radius=40&unit=km&city=${city}&segmentId=${category}&startDateTime=${date}&sort=date,asc&size=5&page=${page}&keyword=${query}`;
@@ -32,6 +34,7 @@ function searchEvents(query, page, city, date, category) {
   }
 }
 
+// Parse and store the info we need from the api response
 function parseData(response) {
   $("#event-details").empty();
   totalPages = response.page.totalPages;
@@ -40,22 +43,32 @@ function parseData(response) {
       // Store data
       var id = event.id;
       if (!data[id]) {
-        data[id] = {};
-        data[id].name = event.name;
-        data[id].link = event.url;
-        data[id].date = event.dates.start.localDate;
+        data[id] = {
+          name: event.name,
+          link: event.url,
+          date: event.dates.start.localDate,
+          status: event.dates.status.code,
+          venue: {
+            name: event._embedded.venues[0].name,
+            city: event._embedded.venues[0].city.name,
+            latitude: event._embedded.venues[0].location.latitude,
+            longitude: event._embedded.venues[0].location.longitude
+          }
+        };
+
+        // Time is not always present
         if (!event.dates.start.timeTBA) {
           data[id].time = event.dates.start.localTime;
         }
-        data[id].status = event.dates.status.code;
-        data[id].venue = event._embedded.venues[0].name;
-        data[id].latitude = event._embedded.venues[0].location.latitude;
-        data[id].longitude = event._embedded.venues[0].location.longitude;
+
+        // Look for image which is exactly 100px
         event.images.forEach(image => {
           if (image.width === 100) {
             data[id].thumb = image.url;
           }
         });
+
+        // Pricing is not always available
         if (event.priceRanges) {
           data[id].minPrice = event.priceRanges[0].min;
           data[id].maxPrice = event.priceRanges[0].max;
@@ -65,12 +78,13 @@ function parseData(response) {
       addSearchRow(id);
     });
   } else {
+    // Add a message indicating no results were returned
     var row = $("<tr>").html("<td>No results found</td>");
     $("#event-details").append(row);
   }
-  console.log(data);
 }
 
+// Add row to search results table
 function addSearchRow(id) {
   // Create table elements
   var row = $("<tr>").attr("data-id", id);
@@ -82,7 +96,7 @@ function addSearchRow(id) {
     .text(data[id].name);
   $(eventName).append(eventLink);
 
-  var eventLocation = $("<td>").text(data[id].venue);
+  var eventLocation = $("<td>").text(`${data[id].venue.name}, ${data[id].venue.city}`);
 
   if (data[id].time) {
     var eventSchedule = $("<td>").text(
@@ -105,19 +119,80 @@ function addSearchRow(id) {
   }
 
   var eventStatus = $("<td>").text(data[id].status);
-  var eventSave = $("<td>").text(""); // Placeholder
+
+  if (isAuth) {
+    // Create save buttons if signed in
+    var eventSave = $("<td>");
+    var eventSaveLink = $("<a>")
+      .attr("href", "#")
+      .addClass("save-event");
+    var eventSaveIcon = $("<i>").addClass("fa fa-save fa-fw text-info");
+
+    $(eventSaveLink).append(eventSaveIcon);
+    $(eventSave).append(eventSaveLink);
+  }
 
   // Append elements to table
-  $(row)
-    .append(eventName)
-    .append(eventLocation)
-    .append(eventSchedule)
-    .append(eventPriceRange)
-    .append(eventStatus)
-    .append(eventSave);
+  $(row).append(eventName, eventLocation, eventSchedule, eventPriceRange, eventStatus, eventSave);
   $("#event-details").append(row);
 }
 
+// Add row to saved events table
+function addSavedRow(eventKey, eventData) {
+  // Create table elements
+  var row = $("<tr>").attr("data-id", eventKey);
+
+  var eventName = $("<td>").attr("colspan", "2");
+  var eventLink = $("<a>")
+    .attr("href", eventData.link)
+    .attr("target", "_blank")
+    .text(eventData.name);
+  $(eventName).append(eventLink);
+
+  var eventLocation = $("<td>").text(`${eventData.venue.name}, ${eventData.venue.city}`);
+
+  if (eventData.time) {
+    var eventSchedule = $("<td>").text(
+      moment(eventData.date).format("MMM DD, YYYY") +
+        " at " +
+        moment(eventData.time, "H:mm:ss").format("h:mma")
+    );
+  } else {
+    var eventSchedule = $("<td>").text(moment(eventData.date).format("MMM DD, YYYY"));
+  }
+
+  if (eventData.minPrice) {
+    if (eventData.minPrice === eventData.maxPrice) {
+      var eventPriceRange = $("<td>").text(formatPrice(eventData.minPrice, eventData.currency));
+    } else {
+      var eventPriceRange = $("<td>").text(
+        `${formatPrice(eventData.minPrice, eventData.currency)} - ${formatPrice(
+          eventData.maxPrice,
+          eventData.currency
+        )}`
+      );
+    }
+  } else {
+    var eventPriceRange = $("<td>").text("TBD");
+  }
+
+  var eventStatus = $("<td>").text(eventData.status);
+
+  var eventRemove = $("<td>");
+  var eventRemoveLink = $("<a>")
+    .attr("href", "#")
+    .addClass("remove-event");
+  var eventRemoveIcon = $("<i>").addClass("fa fa-trash-alt fa-fw text-info");
+
+  $(eventRemoveLink).append(eventRemoveIcon);
+  $(eventRemove).append(eventRemoveLink);
+
+  // Append elements to table
+  $(row).append(eventName, eventLocation, eventSchedule, eventPriceRange, eventStatus, eventRemove);
+  $("#saved-events").append(row);
+}
+
+// Format price based on the type of currency
 function formatPrice(price, country) {
   var locales = {
     CAD: "en-CA",
@@ -130,6 +205,7 @@ function formatPrice(price, country) {
   return currency.format(price);
 }
 
+// Wait for the DOM to load before listening for any elements
 $(document).ready(function() {
   var query, page, city, date, category;
 
@@ -187,6 +263,49 @@ $(document).ready(function() {
           .addClass("disabled");
       }
       searchEvents(query, page, city, date, category);
+    }
+  });
+
+  $("body").on("click", ".save-event", function(e) {
+    e.preventDefault();
+    var eventId = $(this)
+      .parent()
+      .parent()
+      .attr("data-id");
+    var userId = firebase.auth().currentUser.uid;
+    var eventRef = database.ref(`events-tracker/${userId}/event-details/${eventId}`);
+    eventRef.set(data[eventId]);
+  });
+
+  $("body").on("click", ".remove-event", function(e) {
+    e.preventDefault();
+    var row = $(this)
+      .parent()
+      .parent();
+    var eventId = row.attr("data-id");
+    var userId = firebase.auth().currentUser.uid;
+    var eventRef = database.ref(`events-tracker/${userId}/event-details/${eventId}`);
+    eventRef.remove();
+    row.remove();
+  });
+
+  firebase.auth().onAuthStateChanged(function(user) {
+    if (user) {
+      // When signed in
+      isAuth = true;
+      $("#signin-content").show();
+
+      var eventsRef = database.ref(`events-tracker/${user.uid}/event-details`);
+      eventsRef.orderByChild("date").on("child_added", function(snapshot) {
+        // Listen for saved events and add to table
+        addSavedRow(snapshot.key, snapshot.val());
+      });
+    } else {
+      // When signed out
+      isAuth = false;
+      database.ref().off("child_added");
+      $("#saved-events").empty();
+      $("#signin-content").hide();
     }
   });
 });
