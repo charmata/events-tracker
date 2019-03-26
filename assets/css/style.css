@@ -84,3 +84,11 @@
   font-weight: Bold;
   font-size: large;
 }
+
+.btn:focus,
+.btn:active,
+.page-link:focus,
+.page-link:active {
+  outline: 0 !important;
+  box-shadow: none !important;
+}

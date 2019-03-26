@@ -86,27 +86,18 @@ function addSearchRow(id) {
 
   if (data[id].time) {
     var eventSchedule = $("<td>").text(
-      moment(data[id].date).format("MMM DD, YYYY") +
-        " at " +
-        moment(data[id].time, "H:mm:ss").format("h:mma")
+      moment(data[id].date).format("MMM DD, YYYY") + " at " + moment(data[id].time, "H:mm:ss").format("h:mm A")
     );
   } else {
-    var eventSchedule = $("<td>").text(
-      moment(data[id].date).format("MMM DD, YYYY")
-    );
+    var eventSchedule = $("<td>").text(moment(data[id].date).format("MMM DD, YYYY"));
   }
 
   if (data[id].minPrice) {
     if (data[id].minPrice === data[id].maxPrice) {
-      var eventPriceRange = $("<td>").text(
-        formatPrice(data[id].minPrice, data[id].currency)
-      );
+      var eventPriceRange = $("<td>").text(formatPrice(data[id].minPrice, data[id].currency));
     } else {
       var eventPriceRange = $("<td>").text(
-        `${formatPrice(data[id].minPrice, data[id].currency)} - ${formatPrice(
-          data[id].maxPrice,
-          data[id].currency
-        )}`
+        `${formatPrice(data[id].minPrice, data[id].currency)} - ${formatPrice(data[id].maxPrice, data[id].currency)}`
       );
     }
   } else {
