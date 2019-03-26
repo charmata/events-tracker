@@ -43,22 +43,32 @@ function parseData(response) {
       // Store data
       var id = event.id;
       if (!data[id]) {
-        data[id] = {};
-        data[id].name = event.name;
-        data[id].link = event.url;
-        data[id].date = event.dates.start.localDate;
+        data[id] = {
+          name: event.name,
+          link: event.url,
+          date: event.dates.start.localDate,
+          status: event.dates.status.code,
+          venue: {
+            name: event._embedded.venues[0].name,
+            city: event._embedded.venues[0].city.name,
+            latitude: event._embedded.venues[0].location.latitude,
+            longitude: event._embedded.venues[0].location.longitude
+          }
+        };
+
+        // Time is not always present
         if (!event.dates.start.timeTBA) {
           data[id].time = event.dates.start.localTime;
         }
-        data[id].status = event.dates.status.code;
-        data[id].venue = event._embedded.venues[0].name;
-        data[id].latitude = event._embedded.venues[0].location.latitude;
-        data[id].longitude = event._embedded.venues[0].location.longitude;
+
+        // Look for image which is exactly 100px
         event.images.forEach(image => {
           if (image.width === 100) {
             data[id].thumb = image.url;
           }
         });
+
+        // Pricing is not always available
         if (event.priceRanges) {
           data[id].minPrice = event.priceRanges[0].min;
           data[id].maxPrice = event.priceRanges[0].max;
@@ -86,7 +96,7 @@ function addSearchRow(id) {
     .text(data[id].name);
   $(eventName).append(eventLink);
 
-  var eventLocation = $("<td>").text(data[id].venue);
+  var eventLocation = $("<td>").text(`${data[id].venue.name}, ${data[id].venue.city}`);
 
   if (data[id].time) {
     var eventSchedule = $("<td>").text(
@@ -123,13 +133,7 @@ function addSearchRow(id) {
   }
 
   // Append elements to table
-  $(row)
-    .append(eventName)
-    .append(eventLocation)
-    .append(eventSchedule)
-    .append(eventPriceRange)
-    .append(eventStatus)
-    .append(eventSave);
+  $(row).append(eventName, eventLocation, eventSchedule, eventPriceRange, eventStatus, eventSave);
   $("#event-details").append(row);
 }
 
@@ -145,7 +149,7 @@ function addSavedRow(eventKey, eventData) {
     .text(eventData.name);
   $(eventName).append(eventLink);
 
-  var eventLocation = $("<td>").text(eventData.venue);
+  var eventLocation = $("<td>").text(`${eventData.venue.name}, ${eventData.venue.city}`);
 
   if (eventData.time) {
     var eventSchedule = $("<td>").text(
@@ -184,13 +188,7 @@ function addSavedRow(eventKey, eventData) {
   $(eventRemove).append(eventRemoveLink);
 
   // Append elements to table
-  $(row)
-    .append(eventName)
-    .append(eventLocation)
-    .append(eventSchedule)
-    .append(eventPriceRange)
-    .append(eventStatus)
-    .append(eventRemove);
+  $(row).append(eventName, eventLocation, eventSchedule, eventPriceRange, eventStatus, eventRemove);
   $("#saved-events").append(row);
 }
 
@@ -296,14 +294,6 @@ $(document).ready(function() {
       // When signed in
       isAuth = true;
       $("#signin-content").show();
-
-      var userRef = database.ref(`events-tracker/${user.uid}`);
-      userRef.once("value").then(function(snapshot) {
-        if (!snapshot.exists()) {
-          // Add user to database if they don't already exist
-          userRef.set({ "event-details": "" });
-        }
-      });
 
       var eventsRef = database.ref(`events-tracker/${user.uid}/event-details`);
       eventsRef.orderByChild("date").on("child_added", function(snapshot) {
