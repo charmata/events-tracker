@@ -48,9 +48,12 @@ function parseData(response) {
           link: event.url,
           date: event.dates.start.localDate,
           status: event.dates.status.code,
-          venue: event._embedded.venues[0].name,
-          latitude: event._embedded.venues[0].location.latitude,
-          longitude: event._embedded.venues[0].location.longitude
+          venue: {
+            name: event._embedded.venues[0].name,
+            city: event._embedded.venues[0].city.name,
+            latitude: event._embedded.venues[0].location.latitude,
+            longitude: event._embedded.venues[0].location.longitude
+          }
         };
 
         // Time is not always present
@@ -93,7 +96,7 @@ function addSearchRow(id) {
     .text(data[id].name);
   $(eventName).append(eventLink);
 
-  var eventLocation = $("<td>").text(data[id].venue);
+  var eventLocation = $("<td>").text(`${data[id].venue.name}, ${data[id].venue.city}`);
 
   if (data[id].time) {
     var eventSchedule = $("<td>").text(
@@ -152,7 +155,7 @@ function addSavedRow(eventKey, eventData) {
     .text(eventData.name);
   $(eventName).append(eventLink);
 
-  var eventLocation = $("<td>").text(eventData.venue);
+  var eventLocation = $("<td>").text(`${eventData.venue.name}, ${eventData.venue.city}`);
 
   if (eventData.time) {
     var eventSchedule = $("<td>").text(
