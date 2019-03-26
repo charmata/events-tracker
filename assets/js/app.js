@@ -313,7 +313,7 @@ $(document).ready(function() {
       });
 
       var eventsRef = database.ref(`events-tracker/${user.uid}/event-details`);
-      eventsRef.on("child_added", function(snapshot) {
+      eventsRef.orderByChild("date").on("child_added", function(snapshot) {
         // Listen for saved events and add to table
         addSavedRow(snapshot.key, snapshot.val());
       });
