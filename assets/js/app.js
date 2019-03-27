@@ -306,6 +306,15 @@ $(document).ready(function() {
     eventRef.set(data[eventId]);
   });
 
+  $("body").on("click", ".update-event", function(e) {
+    e.preventDefault();
+    var eventId = $(this)
+      .parent()
+      .parent()
+      .attr("data-id");
+    updateEvent(eventId);
+  });
+
   $("body").on("click", ".remove-event", function(e) {
     e.preventDefault();
     var row = $(this)
@@ -326,8 +335,6 @@ $(document).ready(function() {
 
       var eventsRef = database.ref(`events-tracker/${user.uid}/event-details`);
       eventsRef.orderByChild("date").on("child_added", function(snapshot) {
-        //updateEvent(snapshot.key);
-
         // Listen for saved events and add to table
         addSavedRow(snapshot.key, snapshot.val());
       });
