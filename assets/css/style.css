@@ -99,9 +99,10 @@
   font-size: 1rem;
 }
 
-#saved-events-map {
+/* #saved-events-map {
   width: 70vw;
   height: 50vw;
-  /* display: flex; */
+  display: flex;
   margin: auto;
-}
+  position: fixed;
+} */

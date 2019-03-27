@@ -153,9 +153,7 @@ function addSavedRow(eventKey, eventData) {
 
   if (eventData.time) {
     var eventSchedule = $("<td>").text(
-      moment(eventData.date).format("MMM DD, YYYY") +
-        " at " +
-        moment(eventData.time, "H:mm:ss").format("h:mma")
+      moment(eventData.date).format("MMM DD, YYYY") + " at " + moment(eventData.time, "H:mm:ss").format("h:mma")
     );
   } else {
     var eventSchedule = $("<td>").text(moment(eventData.date).format("MMM DD, YYYY"));
