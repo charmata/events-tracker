@@ -98,3 +98,10 @@
   color: #17a2b8 !important;
   font-size: 1rem;
 }
+
+#saved-events-map {
+  width: 70vw;
+  height: 50vw;
+  /* display: flex; */
+  margin: auto;
+}

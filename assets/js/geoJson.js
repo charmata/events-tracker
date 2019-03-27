@@ -5,31 +5,30 @@ var geoEventObject = {
       type: "Feature",
       geometry: {
         type: "Point",
-        coordinates: [102.0, 0.5]
+        coordinates: [-79.3849, 43.6529]
       },
       properties: {
-        prop0: "value0"
+        name: "Toronto1"
       }
     },
     {
       type: "Feature",
       geometry: {
         type: "Point",
-        coordinates: [102.0, 0.5]
+        coordinates: [-79.3849, 43.6529]
       },
       properties: {
-        prop0: "value0",
-        prop1: 0.0
+        name: "Toronto2"
       }
     },
     {
       type: "Feature",
       geometry: {
         type: "Point",
-        coordinates: [102.0, 0.5]
+        coordinates: [-79.3849, 43.6529]
       },
       properties: {
-        prop0: "value0"
+        name: "Toronto3"
       }
     }
   ]
