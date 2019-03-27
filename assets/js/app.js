@@ -42,8 +42,6 @@ function updateEvent(id) {
   $.ajax({
     url: queryUrl
   }).then(function(response) {
-    console.log(response);
-
     var userId = firebase.auth().currentUser.uid;
     var eventRef = database.ref(`events-tracker/${userId}/event-details/${id}`);
     eventRef.once("value").then(function(snapshot) {
@@ -68,8 +66,6 @@ function updateEvent(id) {
       if (currentData.status !== response.dates.status.code) {
         currentData.status = response.dates.status.code;
       }
-
-      console.log(currentData);
 
       // Store latest data
       Object.keys(currentData).forEach(key => {
@@ -256,6 +252,28 @@ function addSavedRow(eventKey, eventData) {
   $("#saved-events").append(row);
 }
 
+// Update row in saved events table
+function updateSavedRow(eventKey, eventData) {
+  var rowSelector = "#saved-events tr[data-id=" + eventKey + "]";
+
+  if (eventData.minPrice) {
+    if (eventData.minPrice === eventData.maxPrice) {
+      $(rowSelector + " td:nth-child(4)").text(formatPrice(eventData.minPrice, eventData.currency));
+    } else {
+      $(rowSelector + " td:nth-child(4)").text(
+        `${formatPrice(eventData.minPrice, eventData.currency)} - ${formatPrice(
+          eventData.maxPrice,
+          eventData.currency
+        )}`
+      );
+    }
+  } else {
+    $(rowSelector + " td:nth-child(4)").text("TBD");
+  }
+
+  $(rowSelector + " td:nth-child(5)").text(eventData.status);
+}
+
 // Format price based on the type of currency
 function formatPrice(price, country) {
   var locales = {
@@ -369,9 +387,15 @@ $(document).ready(function() {
       $("#signin-content").show();
 
       var eventsRef = database.ref(`events-tracker/${user.uid}/event-details`);
+
+      // Listen for saved events and add to table
       eventsRef.orderByChild("date").on("child_added", function(snapshot) {
-        // Listen for saved events and add to table
         addSavedRow(snapshot.key, snapshot.val());
+      });
+
+      // Listen for updated values and update table
+      eventsRef.on("child_changed", function(snapshot) {
+        updateSavedRow(snapshot.key, snapshot.val());
       });
     } else {
       // When signed out
