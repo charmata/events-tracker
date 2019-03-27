@@ -34,6 +34,16 @@ function searchEvents(query, page, city, date, category) {
   }
 }
 
+function updateEvent(id) {
+  var queryUrl = `${endpoint}/${id}?apikey=${key}`;
+
+  $.ajax({
+    url: queryUrl
+  }).then(function(response) {
+    console.log(response);
+  });
+}
+
 // Parse and store the info we need from the api response
 function parseData(response) {
   $("#event-details").empty();
@@ -305,6 +315,8 @@ $(document).ready(function() {
 
       var eventsRef = database.ref(`events-tracker/${user.uid}/event-details`);
       eventsRef.orderByChild("date").on("child_added", function(snapshot) {
+        //updateEvent(snapshot.key);
+
         // Listen for saved events and add to table
         addSavedRow(snapshot.key, snapshot.val());
       });
