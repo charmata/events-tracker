@@ -34,13 +34,48 @@ function searchEvents(query, page, city, date, category) {
   }
 }
 
+// Check the api for changes to the saved event
 function updateEvent(id) {
   var queryUrl = `${endpoint}/${id}?apikey=${key}`;
 
+  // Don't bother caching results since we want the latest data
   $.ajax({
     url: queryUrl
   }).then(function(response) {
     console.log(response);
+
+    var userId = firebase.auth().currentUser.uid;
+    var eventRef = database.ref(`events-tracker/${userId}/event-details/${id}`);
+    eventRef.once("value").then(function(snapshot) {
+      var currentData = {};
+
+      // Get stored data
+      if (snapshot.val().minPrice) {
+        currentData.minPrice = snapshot.val().minPrice;
+        currentData.maxPrice = snapshot.val().maxPrice;
+      }
+      currentData.status = snapshot.val().status;
+
+      // Check against latest data
+      if (response.priceRanges.min) {
+        if (currentData.minPrice !== response.priceRanges.min) {
+          currentData.minPrice = response.priceRanges.min;
+        }
+        if (currentData.maxPrice !== response.priceRanges.max) {
+          currentData.maxPrice = response.priceRanges.max;
+        }
+      }
+      if (currentData.status !== response.dates.status.code) {
+        currentData.status = response.dates.status.code;
+      }
+
+      console.log(currentData);
+
+      // Store latest data
+      Object.keys(currentData).forEach(key => {
+        eventRef.child(key).set(currentData[key]);
+      });
+    });
   });
 }
 
