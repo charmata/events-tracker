@@ -196,6 +196,17 @@ function addSavedRow(eventKey, eventData) {
 
   var eventStatus = $("<td>").text(eventData.status);
 
+  // Update event buttons
+  var eventUpdate = $("<td>");
+  var eventUpdateLink = $("<a>")
+    .attr("href", "#")
+    .addClass("update-event");
+  var eventUpdateIcon = $("<i>").addClass("fa fa-sync-alt fa-fw text-info");
+
+  $(eventUpdateLink).append(eventUpdateIcon);
+  $(eventUpdate).append(eventUpdateLink);
+
+  // Remove event buttons
   var eventRemove = $("<td>");
   var eventRemoveLink = $("<a>")
     .attr("href", "#")
@@ -206,7 +217,7 @@ function addSavedRow(eventKey, eventData) {
   $(eventRemove).append(eventRemoveLink);
 
   // Append elements to table
-  $(row).append(eventName, eventLocation, eventSchedule, eventPriceRange, eventStatus, eventRemove);
+  $(row).append(eventName, eventLocation, eventSchedule, eventPriceRange, eventStatus, eventUpdate, eventRemove);
   $("#saved-events").append(row);
 }
 
