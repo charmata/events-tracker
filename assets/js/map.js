@@ -3,13 +3,15 @@ $(document).ready(function() {
   var userUID;
   var mapDatabaseRef;
   var isUserSignedIn = false;
+  var markers;
+  var geoJsonLayer;
 
   L.mapbox.accessToken =
     "pk.eyJ1IjoidG9zaHlhbXN1bmRhciIsImEiOiJjanRoazR5M2wwOHU0NDNsZTJmNHRwYjM1In0.9ID0Zv8TuBqLP0r6NYiSSQ";
 
   var map = L.mapbox
     .map("saved-events-map")
-    .setView([-100.623177, 45.881832], 4)
+    .setView([45.881832, -100.623177], 4)
     .addLayer(L.mapbox.styleLayer("mapbox://styles/mapbox/streets-v11"));
 
   var eventFeature = {
@@ -33,8 +35,8 @@ $(document).ready(function() {
   };
 
   var plotMarker = geoEventObject => {
-    console.log("Inside plotMarker");
-    console.log(geoEventObject);
+    // console.log("Inside plotMarker");
+    // console.log(geoEventObject);
     // var divElem = $("<div>");
     // var h3Elem = $("<h5>" + eventName + "</h5>");
     // var dateElem = $("<p>Date: " + eventDate + " " + eventTime + "</p>");
@@ -44,8 +46,8 @@ $(document).ready(function() {
 
     // var popup = new mapboxgl.Popup({ offset: 25, className: "marker-popup" }).setDOMContent(divElem[0]);
 
-    var markers = new L.MarkerClusterGroup();
-    var geoJsonLayer = L.geoJson(geoEventObject, {
+    markers = new L.MarkerClusterGroup();
+    geoJsonLayer = L.geoJson(geoEventObject, {
       onEachFeature: onEachEventFeature
     });
 
@@ -55,7 +57,7 @@ $(document).ready(function() {
 
   var addToEventFeature = eventSnapshot => {
     var es = eventSnapshot.val();
-    console.log(es);
+    // console.log(es);
     eventFeature.geometry.coordinates[0] = parseFloat(es.venue.longitude);
     eventFeature.geometry.coordinates[1] = parseFloat(es.venue.latitude);
     eventFeature.properties.name = es.name;
@@ -63,7 +65,7 @@ $(document).ready(function() {
     eventFeature.properties.time = es.time;
     eventFeature.properties.status = es.status;
     eventFeature.properties.city = es.venue.city;
-    console.log(geoEventObject);
+    // console.log(geoEventObject);
 
     geoEventObject.features.push(JSON.parse(JSON.stringify(eventFeature)));
   };
@@ -75,7 +77,7 @@ $(document).ready(function() {
       userUID = currentUser.uid;
 
       var eventQuery = database.ref("events-tracker/" + userUID + "/event-details").orderByKey();
-      // mapDatabaseRef = database.ref("events-tracker/" + userUID + "/event-details");
+      mapDatabaseRef = database.ref("events-tracker/" + userUID + "/event-details");
 
       eventQuery.once("value").then(function(eventDetailsSnapshot) {
         eventDetailsSnapshot.forEach(function(eventChildSnapshot) {
@@ -90,16 +92,21 @@ $(document).ready(function() {
   });
 
   $(document).on("shown.bs.tab", 'a[data-toggle="tab"]', function(e) {
-    console.log($(this));
+    // console.log($(this));
     if (isUserSignedIn) {
       console.log("invalidate size");
-      setTimeout(function() {
-        map.invalidateSize(true);
-      }, 500);
+      map.invalidateSize(true);
     }
   });
 
   var onEachEventFeature = (feature, layer) => {
     console.log(feature);
+    console.log(layer);
+    layer.on("click", function(e) {
+      var popup = L.popup()
+        .setLatLng([feature.geometry.coordinates[1], feature.geometry.coordinates[0]])
+        .setContent("<p>" + feature.properties.name + "</p>")
+        .openOn(map);
+    });
   };
 });
