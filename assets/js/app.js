@@ -310,6 +310,18 @@ $(document).ready(function() {
     searchEvents(query, page, city, date, category);
   });
 
+  $("#search-suggest button").on("click", function() {
+    query = $(this).text();
+    var btnCategory = $(this).attr("data-category");
+    $("#category-list").val(btnCategory);
+
+    page = 0;
+    city = $("#cityList").val();
+    date = $("#start-date").val();
+    category = $("#category-list").val();
+    searchEvents(query, page, city, date, category);
+  });
+
   $("#next-page").on("click", function(e) {
     e.preventDefault();
     if (page !== undefined) {
