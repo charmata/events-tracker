@@ -99,15 +99,6 @@
   font-size: 1rem;
 }
 
-
-/* #saved-events-map {
-  width: 70vw;
-  height: 50vw;
-  display: flex;
-  margin: auto;
-  position: fixed;
-} */
-
 .leaflet-popup-content-wrapper {
   background: #17a2b8 !important;
   color: #f8f9fa !important;
