@@ -34,6 +34,47 @@ function searchEvents(query, page, city, date, category) {
   }
 }
 
+// Check the api for changes to the saved event
+function updateEvent(id) {
+  var queryUrl = `${endpoint}/${id}?apikey=${key}`;
+
+  // Don't bother caching results since we want the latest data
+  $.ajax({
+    url: queryUrl
+  }).then(function(response) {
+    var userId = firebase.auth().currentUser.uid;
+    var eventRef = database.ref(`events-tracker/${userId}/event-details/${id}`);
+    eventRef.once("value").then(function(snapshot) {
+      var currentData = {};
+
+      // Get stored data
+      if (snapshot.val().minPrice) {
+        currentData.minPrice = snapshot.val().minPrice;
+        currentData.maxPrice = snapshot.val().maxPrice;
+      }
+      currentData.status = snapshot.val().status;
+
+      // Check against latest data
+      if (response.priceRanges.min) {
+        if (currentData.minPrice !== response.priceRanges.min) {
+          currentData.minPrice = response.priceRanges.min;
+        }
+        if (currentData.maxPrice !== response.priceRanges.max) {
+          currentData.maxPrice = response.priceRanges.max;
+        }
+      }
+      if (currentData.status !== response.dates.status.code) {
+        currentData.status = response.dates.status.code;
+      }
+
+      // Store latest data
+      Object.keys(currentData).forEach(key => {
+        eventRef.child(key).set(currentData[key]);
+      });
+    });
+  });
+}
+
 // Parse and store the info we need from the api response
 function parseData(response) {
   $("#event-details").empty();
@@ -92,8 +133,13 @@ function addSearchRow(id) {
   var eventName = $("<td>").attr("colspan", "2");
   var eventLink = $("<a>")
     .attr("href", data[id].link)
-    .attr("target", "_blank")
-    .text(data[id].name);
+    .attr("target", "_blank");
+  var eventLinkIcon = $("<i>")
+    .addClass("fa fa-info-circle fa-fw text-info")
+    .css("margin-right", "5px");
+  var eventLinkText = $("<span>").text(data[id].name);
+
+  $(eventLink).append(eventLinkIcon, eventLinkText);
   $(eventName).append(eventLink);
 
   var eventLocation = $("<td>").text(`${data[id].venue.name}, ${data[id].venue.city}`);
@@ -145,8 +191,13 @@ function addSavedRow(eventKey, eventData) {
   var eventName = $("<td>").attr("colspan", "2");
   var eventLink = $("<a>")
     .attr("href", eventData.link)
-    .attr("target", "_blank")
-    .text(eventData.name);
+    .attr("target", "_blank");
+  var eventLinkIcon = $("<i>")
+    .addClass("fa fa-info-circle fa-fw text-info")
+    .css("margin-right", "5px");
+  var eventLinkText = $("<span>").text(eventData.name);
+
+  $(eventLink).append(eventLinkIcon, eventLinkText);
   $(eventName).append(eventLink);
 
   var eventLocation = $("<td>").text(`${eventData.venue.name}, ${eventData.venue.city}`);
@@ -176,6 +227,17 @@ function addSavedRow(eventKey, eventData) {
 
   var eventStatus = $("<td>").text(eventData.status);
 
+  // Update event buttons
+  var eventUpdate = $("<td>");
+  var eventUpdateLink = $("<a>")
+    .attr("href", "#")
+    .addClass("update-event");
+  var eventUpdateIcon = $("<i>").addClass("fa fa-sync-alt fa-fw text-info");
+
+  $(eventUpdateLink).append(eventUpdateIcon);
+  $(eventUpdate).append(eventUpdateLink);
+
+  // Remove event buttons
   var eventRemove = $("<td>");
   var eventRemoveLink = $("<a>")
     .attr("href", "#")
@@ -186,8 +248,30 @@ function addSavedRow(eventKey, eventData) {
   $(eventRemove).append(eventRemoveLink);
 
   // Append elements to table
-  $(row).append(eventName, eventLocation, eventSchedule, eventPriceRange, eventStatus, eventRemove);
+  $(row).append(eventName, eventLocation, eventSchedule, eventPriceRange, eventStatus, eventUpdate, eventRemove);
   $("#saved-events").append(row);
+}
+
+// Update row in saved events table
+function updateSavedRow(eventKey, eventData) {
+  var rowSelector = "#saved-events tr[data-id=" + eventKey + "]";
+
+  if (eventData.minPrice) {
+    if (eventData.minPrice === eventData.maxPrice) {
+      $(rowSelector + " td:nth-child(4)").text(formatPrice(eventData.minPrice, eventData.currency));
+    } else {
+      $(rowSelector + " td:nth-child(4)").text(
+        `${formatPrice(eventData.minPrice, eventData.currency)} - ${formatPrice(
+          eventData.maxPrice,
+          eventData.currency
+        )}`
+      );
+    }
+  } else {
+    $(rowSelector + " td:nth-child(4)").text("TBD");
+  }
+
+  $(rowSelector + " td:nth-child(5)").text(eventData.status);
 }
 
 // Format price based on the type of currency
@@ -275,6 +359,15 @@ $(document).ready(function() {
     eventRef.set(data[eventId]);
   });
 
+  $("body").on("click", ".update-event", function(e) {
+    e.preventDefault();
+    var eventId = $(this)
+      .parent()
+      .parent()
+      .attr("data-id");
+    updateEvent(eventId);
+  });
+
   $("body").on("click", ".remove-event", function(e) {
     e.preventDefault();
     var row = $(this)
@@ -294,9 +387,15 @@ $(document).ready(function() {
       $("#signin-content").show();
 
       var eventsRef = database.ref(`events-tracker/${user.uid}/event-details`);
+
+      // Listen for saved events and add to table
       eventsRef.orderByChild("date").on("child_added", function(snapshot) {
-        // Listen for saved events and add to table
         addSavedRow(snapshot.key, snapshot.val());
+      });
+
+      // Listen for updated values and update table
+      eventsRef.on("child_changed", function(snapshot) {
+        updateSavedRow(snapshot.key, snapshot.val());
       });
     } else {
       // When signed out

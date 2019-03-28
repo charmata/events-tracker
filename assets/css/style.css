@@ -99,6 +99,7 @@
   font-size: 1rem;
 }
 
+
 /* #saved-events-map {
   width: 70vw;
   height: 50vw;
@@ -110,4 +111,8 @@
 .leaflet-popup-content-wrapper {
   background: #17a2b8 !important;
   color: #f8f9fa !important;
+}
+
+table a:hover {
+  text-decoration: none;
 }
