@@ -166,16 +166,17 @@ function addSearchRow(id) {
 
   var eventStatus = $("<td>").text(data[id].status);
 
-  if (isAuth) {
-    // Create save buttons if signed in
-    var eventSave = $("<td>");
-    var eventSaveLink = $("<a>")
-      .attr("href", "#")
-      .addClass("save-event");
-    var eventSaveIcon = $("<i>").addClass("fa fa-save fa-fw text-info");
+  var eventSave = $("<td>");
+  var eventSaveLink = $("<a>")
+    .attr("href", "#")
+    .addClass("save-event");
+  var eventSaveIcon = $("<i>").addClass("fa fa-save fa-fw text-info");
 
-    $(eventSaveLink).append(eventSaveIcon);
-    $(eventSave).append(eventSaveLink);
+  $(eventSaveLink).append(eventSaveIcon);
+  $(eventSave).append(eventSaveLink);
+  // Hide save buttons if signed out
+  if (!isAuth) {
+    $(eventSave).hide();
   }
 
   // Append elements to table
@@ -398,6 +399,8 @@ $(document).ready(function() {
       isAuth = true;
       $("#signin-content").show();
 
+      $("#event-details td:nth-child(6)").show();
+
       var eventsRef = database.ref(`events-tracker/${user.uid}/event-details`);
 
       // Listen for saved events and add to table
@@ -412,6 +415,9 @@ $(document).ready(function() {
     } else {
       // When signed out
       isAuth = false;
+
+      $("#event-details td:nth-child(6)").hide();
+
       database.ref().off("child_added");
       $("#saved-events").empty();
       $("#signin-content").hide();
