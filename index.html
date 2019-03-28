@@ -32,9 +32,19 @@
     <script src="https://www.gstatic.com/firebasejs/5.9.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/5.9.0/firebase-database.js"></script>
     <script src="https://www.gstatic.com/firebasejs/5.9.0/firebase-auth.js"></script>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mapbox-gl/0.53.1/mapbox-gl.css" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/mapbox-gl/0.53.1/mapbox-gl.js"></script>
+    <script src="https://api.mapbox.com/mapbox.js/v3.2.0/mapbox.js"></script>
+    <link href="https://api.mapbox.com/mapbox.js/v3.2.0/mapbox.css" rel="stylesheet" />
+    <script src="https://api.mapbox.com/mapbox.js/plugins/leaflet-markercluster/v1.0.0/leaflet.markercluster.js"></script>
+    <link
+      href="https://api.mapbox.com/mapbox.js/plugins/leaflet-markercluster/v1.0.0/MarkerCluster.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://api.mapbox.com/mapbox.js/plugins/leaflet-markercluster/v1.0.0/MarkerCluster.Default.css"
+      rel="stylesheet"
+    />
     <script src="./assets/js/app.js"></script>
     <script src="./assets/js/auth.js"></script>
     <script src="./assets/js/map.js"></script>
@@ -210,6 +220,7 @@
                 </div>
                 <div class="tab-pane" id="tab2">
                   <div id="saved-events-map" style="width: 70vw; height: 50vw" class="d-flex m-auto"></div>
+                  <!-- <div id="saved-events-map"></div> -->
                 </div>
               </div>
             </div>
@@ -275,10 +286,8 @@
           </div>
         </div>
       </div>
-      <footer class="footer mt-auto pt-4">
-        <div class="container text-center">
-          <span class="text-muted">Chris//Rezwan//Shyam &copy</span>
-        </div>
+      <footer class="footer mt-auto pt-4 w-100 text-center">
+        <span class="text-muted">Chris//Rezwan//Shyam &copy</span>
       </footer>
     </div>
   </body>
