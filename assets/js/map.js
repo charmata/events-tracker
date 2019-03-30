@@ -65,7 +65,11 @@ $(document).ready(function() {
     eventFeature.properties.eventId = eventSnapshot.key;
     eventFeature.properties.name = es.name;
     eventFeature.properties.date = es.date;
-    eventFeature.properties.time = es.time;
+    if (es.time) {
+      eventFeature.properties.time = es.time;
+    } else {
+      eventFeature.properties.time = "";
+    }
     eventFeature.properties.status = es.status;
     eventFeature.properties.city = es.venue.city;
 
