@@ -98,7 +98,7 @@ function parseData(response) {
         };
 
         // Time is not always present
-        if (!event.dates.start.timeTBA) {
+        if (!event.dates.start.timeTBA && !event.dates.start.noSpecificTime) {
           data[id].time = event.dates.start.localTime;
         }
 
