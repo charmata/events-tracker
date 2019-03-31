@@ -114,7 +114,8 @@ table a:hover {
 #signup-password:focus,
 #repeat-password:focus,
 #signin-email:focus,
-#signin-password:focus {
+#signin-password:focus,
+.close {
   outline: 0 !important;
   box-shadow: none !important;
 }
