@@ -90,10 +90,12 @@ function parseData(response) {
           date: event.dates.start.localDate,
           status: event.dates.status.code,
           venue: {
+            id: event._embedded.venues[0].id,
             name: event._embedded.venues[0].name,
             city: event._embedded.venues[0].city.name,
-            latitude: event._embedded.venues[0].location.latitude,
-            longitude: event._embedded.venues[0].location.longitude
+            address: event._embedded.venues[0].address.line1,
+            postalCode: event._embedded.venues[0].postalCode,
+            stateCode: event._embedded.venues[0].state.stateCode
           }
         };
 
@@ -102,7 +104,7 @@ function parseData(response) {
           data[id].time = event.dates.start.localTime;
         }
 
-        // Look for image which is exactly 100px
+        // Look for event image which is exactly 100px
         event.images.forEach(image => {
           if (image.width === 100) {
             data[id].thumb = image.url;
@@ -115,6 +117,19 @@ function parseData(response) {
           data[id].maxPrice = event.priceRanges[0].max;
           data[id].currency = event.priceRanges[0].currency;
         }
+
+        // Ticketsnow doesn't provide coordinates with their venues
+        if (event._embedded.venues[0].location.latitude != 0 || event._embedded.venues[0].location.longitude != 0) {
+          data[id].venue.latitude = event._embedded.venues[0].location.latitude;
+          data[id].venue.longitude = event._embedded.venues[0].location.longitude;
+        }
+
+        // Look for venue image which is exactly 205px
+        event._embedded.venues[0].images.forEach(image => {
+          if (image.width === 205) {
+            data[id].venue.thumb = image.url;
+          }
+        });
       }
       addSearchRow(id);
     });
