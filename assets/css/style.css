@@ -108,3 +108,13 @@ table a:hover {
   box-shadow: 1px 1px 1px #000;
   border-radius: 0;
 }
+
+#signup-email:focus,
+#signup-name:focus,
+#signup-password:focus,
+#repeat-password:focus,
+#signin-email:focus,
+#signin-password:focus {
+  outline: 0 !important;
+  box-shadow: none !important;
+}
