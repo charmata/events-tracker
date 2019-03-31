@@ -135,7 +135,7 @@ function addSearchRow(id) {
     .attr("href", data[id].link)
     .attr("target", "_blank");
   var eventLinkIcon = $("<i>")
-    .addClass("fas fa-shopping-cart fa-fw text-info")
+    .addClass("fas fa-shopping-cart fa-fw text-dark")
     .css("margin-right", "5px");
   var eventLinkText = $("<span>").text(data[id].name);
 
@@ -194,7 +194,7 @@ function addSavedRow(eventKey, eventData) {
     .attr("href", eventData.link)
     .attr("target", "_blank");
   var eventLinkIcon = $("<i>")
-    .addClass("fas fa-shopping-cart fa-fw text-info")
+    .addClass("fas fa-shopping-cart fa-fw text-dark")
     .css("margin-right", "5px");
   var eventLinkText = $("<span>").text(eventData.name);
 
@@ -233,7 +233,7 @@ function addSavedRow(eventKey, eventData) {
   var eventUpdateLink = $("<a>")
     .attr("href", "#")
     .addClass("update-event");
-  var eventUpdateIcon = $("<i>").addClass("fa fa-sync-alt fa-fw text-info");
+  var eventUpdateIcon = $("<i>").addClass("fa fa-sync-alt fa-fw text-success");
 
   $(eventUpdateLink).append(eventUpdateIcon);
   $(eventUpdate).append(eventUpdateLink);
@@ -243,7 +243,7 @@ function addSavedRow(eventKey, eventData) {
   var eventRemoveLink = $("<a>")
     .attr("href", "#")
     .addClass("remove-event");
-  var eventRemoveIcon = $("<i>").addClass("fa fa-trash-alt fa-fw text-info");
+  var eventRemoveIcon = $("<i>").addClass("fa fa-trash-alt fa-fw text-danger");
 
   $(eventRemoveLink).append(eventRemoveIcon);
   $(eventRemove).append(eventRemoveLink);

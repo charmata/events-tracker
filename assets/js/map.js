@@ -148,7 +148,7 @@ $(document).ready(function() {
     map.addLayer(markers);
   });
 
-  //Event hadnler for adding markers to the map
+  //Event handler for adding markers to the map
   $(document).on("click", ".save-event", function(e) {
     e.preventDefault();
     var eventId = $(this)
