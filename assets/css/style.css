@@ -1,5 +1,5 @@
 * {
-  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande", "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+  font-family: "Exo 2", sans-serif;
 }
 .container-fluid {
   padding: 0;
@@ -7,16 +7,18 @@
 
 .btn-custom {
   width: 150px;
+  background: linear-gradient(rgba(23, 162, 184, 0.5), rgba(23, 162, 184, 0.9));
 }
 
 .navbar {
   border-bottom: 2px solid #17a2b8 !important;
-  background-color: #bee5eb;
 }
 
 .jumbotron {
   border-radius: 0;
-  background-color: #bee5eb;
+  background: url("../images/action-athletes-audience.jpg");
+  background-position: center center;
+  border-bottom: 1px solid #17a2b8;
 }
 
 .nav-menu,

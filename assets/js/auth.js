@@ -14,32 +14,28 @@ $(document).ready(function() {
   // Function to hide sign in and show sign out options
   var signedIn = currentUser => {
     firebaseUID = currentUser.uid;
-    // $("#signin")
-    //   .parent("li")
-    //   .hide();
+    $("#signin")
+      .parent("li")
+      .hide();
     $("#signin").hide();
-    // $("#signup")
-    //   .parent("li")
-    //   .css("display", "none");
     $("#signup").hide();
     $("#signout")
       .children("a")
       .text(currentUser.displayName);
     $("#signout").show();
-    // $("#signout").css("display", "block");
   };
 
   // Function to hide sign out and show sign in options
   var signedOut = () => {
     $("#signin").show();
-    // $("#signin").css("display", "block");
     $("#signup").show();
-    // $("#signup").css("display", "block");
+    $("#signin")
+      .parent("li")
+      .show();
     $("#signout")
       .children("a")
       .text("");
     $("#signout").hide();
-    // $("#signout").css("display", "none");
   };
 
   //Event handler for signup button click
@@ -83,6 +79,9 @@ $(document).ready(function() {
         var errorMessage = error.message;
         console.log(errorCode + " " + errorMessage);
         $("#invalid-input").text("Invalid Input!!");
+        setTimeout(function() {
+          $("#invalid-input").text("");
+        }, 2000);
       });
 
     $("#signin-email").val("");
@@ -114,6 +113,9 @@ $(document).ready(function() {
         var errorMessage = error.message;
         console.log(errorCode + " " + errorMessage);
         $("#invalid-credentials").text("Invalid Credentials!!");
+        setTimeout(function() {
+          $("#invalid-credentials").text("");
+        }, 2000);
       });
 
     $("#signin-email").val("");

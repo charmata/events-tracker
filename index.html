@@ -17,6 +17,7 @@
       integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf"
       crossorigin="anonymous"
     />
+    <link href="https://fonts.googleapis.com/css?family=Exo+2" rel="stylesheet" />
     <link rel="stylesheet" href="./assets/css/style.css" />
     <script src="https://code.jquery.com/jquery-3.3.1.min.js" crossorigin="anonymous"></script>
     <script
@@ -51,8 +52,8 @@
   </head>
   <body>
     <div class="container-fluid">
-      <nav class="navbar sticky-top navbar-expand-lg navbar-light py-1">
-        <span class="navbar-brand text-info font-weight-bold" href="#">Events</span>
+      <nav class="navbar sticky-top navbar-expand-md bg-dark py-1">
+        <span class="navbar-brand text-info font-weight-bold" href="#"><i class="fab fa-etsy"></i></span>
         <div class="collapse navbar-collapse" id="navbarText">
           <ul class="navbar-nav mr-auto w-100 d-flex justify-content-around">
             <li class="nav-item">
@@ -61,13 +62,9 @@
             <li class="nav-item">
               <a class="nav-link nav-menu" href="#signin-content">My Tracker</a>
             </li>
-            <li class="nav-item d-flex">
-              <!-- <span> -->
-              <a class="nav-link m-1 p-1" href="#" id="signin"> Sign In</a>
-              <!-- </span> -->
-              <!-- <span> -->
-              <a class="nav-link m-1 p-1" href="#" id="signup"> Sign Up</a>
-              <!-- </span> -->
+            <li class="nav-item">
+              <a class="nav-link m-1 p-1 float-left" href="#" id="signin"> Sign In</a>
+              <a class="nav-link m-1 p-1 float-right" href="#" id="signup"> Sign Up</a>
             </li>
             <li class="nav-item dropdown" id="signout" style="display: none">
               <a
@@ -90,7 +87,7 @@
           </ul>
         </div>
       </nav>
-      <div class="jumbotron text-center py-4 mb-3">
+      <div class="jumbotron text-center py-5 mb-0">
         <div class="row mt-4 mx-0">
           <div class="column col-3"></div>
           <div class="column col-6 input-group">
@@ -117,8 +114,7 @@
           <div class="column col-1"></div>
         </div>
       </div>
-
-      <div class="row mt-2 mx-0">
+      <div class="row mx-0 pt-3">
         <div class="column col-2"></div>
         <div class="column col-8">
           <form class="d-flex justify-content-around">
@@ -147,7 +143,7 @@
               </select>
             </div>
             <div class="form-group">
-              <button type="button" class="btn btn-info" id="btn-search">
+              <button type="button" class="btn btn-info text-light" id="btn-search">
                 Search
               </button>
             </div>
@@ -159,9 +155,9 @@
       <div class="row mt-2 mx-0">
         <div class="column col-1"></div>
         <div class="column col-10">
-          <table class="table table-sm table-info">
+          <table class="table table-sm table-info table-striped">
             <thead>
-              <tr>
+              <tr class="bg-dark text-info">
                 <th scope="col" colspan="2">Event</th>
                 <th scope="col">Location</th>
                 <th scope="col">Schedule</th>
@@ -190,7 +186,7 @@
         <div class="column col-1"></div>
         <div class="column col-10">
           <div class="card">
-            <div class="card-header bg-info">
+            <div class="card-header bg-dark">
               <ul class="nav nav-tabs card-header-tabs">
                 <li class="nav-item active">
                   <a class="nav-link active" data-toggle="tab" id="events-list" href="#tab1">My Events</a>
@@ -203,9 +199,9 @@
             <div class="card-body">
               <div class="tab-content">
                 <div class="tab-pane active" id="tab1">
-                  <table class="table table-sm table-info" id="saved-events-list">
+                  <table class="table table-sm table-info mb-0 table-striped" id="saved-events-list">
                     <thead>
-                      <tr>
+                      <tr class="bg-dark text-info">
                         <th scope="col" colspan="2">Event</th>
                         <th scope="col">Location</th>
                         <th scope="col">Schedule</th>
@@ -220,7 +216,6 @@
                 </div>
                 <div class="tab-pane" id="tab2">
                   <div id="saved-events-map" style="width: 70vw; height: 50vw" class="d-flex m-auto"></div>
-                  <!-- <div id="saved-events-map"></div> -->
                 </div>
               </div>
             </div>
@@ -233,7 +228,7 @@
           <div class="modal-content modal-bg">
             <div class="modal-header border-bottom-0 pb-0 text-center">
               <h4 class="modal-title w-100">Sign In</h4>
-              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
             </div>
             <div class="modal-body">
               <form>
@@ -260,7 +255,7 @@
           <div class="modal-content modal-bg">
             <div class="modal-header border-bottom-0 pb-0 text-center">
               <h4 class="modal-title w-100">Sign Up</h4>
-              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
             </div>
             <div class="modal-body">
               <form>

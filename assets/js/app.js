@@ -135,7 +135,7 @@ function addSearchRow(id) {
     .attr("href", data[id].link)
     .attr("target", "_blank");
   var eventLinkIcon = $("<i>")
-    .addClass("fa fa-info-circle fa-fw text-info")
+    .addClass("fas fa-shopping-cart fa-fw text-info")
     .css("margin-right", "5px");
   var eventLinkText = $("<span>").text(data[id].name);
 
@@ -194,7 +194,7 @@ function addSavedRow(eventKey, eventData) {
     .attr("href", eventData.link)
     .attr("target", "_blank");
   var eventLinkIcon = $("<i>")
-    .addClass("fa fa-info-circle fa-fw text-info")
+    .addClass("fas fa-shopping-cart fa-fw text-info")
     .css("margin-right", "5px");
   var eventLinkText = $("<span>").text(eventData.name);
 
@@ -205,7 +205,7 @@ function addSavedRow(eventKey, eventData) {
 
   if (eventData.time) {
     var eventSchedule = $("<td>").text(
-      moment(eventData.date).format("MMM DD, YYYY") + " at " + moment(eventData.time, "H:mm:ss").format("h:mma")
+      moment(eventData.date).format("MMM DD, YYYY") + " at " + moment(eventData.time, "H:mm:ss").format("h:mm A")
     );
   } else {
     var eventSchedule = $("<td>").text(moment(eventData.date).format("MMM DD, YYYY"));
