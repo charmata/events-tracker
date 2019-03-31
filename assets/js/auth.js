@@ -48,45 +48,59 @@ $(document).ready(function() {
       .val()
       .trim();
 
+    var repeatPassword = $("#repeat-password")
+      .val()
+      .trim();
+
     var userName = $("#signup-name")
       .val()
       .trim();
 
-    // Create new user account with email and password
-    firebase
-      .auth()
-      .createUserWithEmailAndPassword(userEmail, userPassword)
-      .then(userObj => {
-        console.log(userObj);
-        if (userObj) {
-          var newUser = firebase.auth().currentUser;
-          //Update the user profile with teh display name
-          newUser
-            .updateProfile({
-              displayName: userName
-            })
-            .then(function() {
-              $("#modal-signup").modal("hide");
-              signedIn(newUser);
-            })
-            .catch(function(error) {
-              console.log(error);
-            });
-        }
-      })
-      .catch(function(error) {
-        var errorCode = error.code;
-        var errorMessage = error.message;
-        console.log(errorCode + " " + errorMessage);
-        $("#invalid-input").text("Invalid Input!!");
-        setTimeout(function() {
-          $("#invalid-input").text("");
-        }, 2000);
-      });
+    if (userPassword !== repeatPassword) {
+      $("#invalid-input").text("Passwords do not match!!");
+      $("#signup-password").val("");
+      $("#repeat-password").val("");
+      setTimeout(function() {
+        $("#invalid-input").text("");
+      }, 2000);
+    } else {
+      // Create new user account with email and password
+      firebase
+        .auth()
+        .createUserWithEmailAndPassword(userEmail, userPassword)
+        .then(userObj => {
+          console.log(userObj);
+          if (userObj) {
+            var newUser = firebase.auth().currentUser;
+            //Update the user profile with teh display name
+            newUser
+              .updateProfile({
+                displayName: userName
+              })
+              .then(function() {
+                $("#modal-signup").modal("hide");
+                signedIn(newUser);
+              })
+              .catch(function(error) {
+                console.log(error);
+              });
+          }
+        })
+        .catch(function(error) {
+          var errorCode = error.code;
+          var errorMessage = error.message;
+          console.log(errorCode + " " + errorMessage);
+          $("#invalid-input").text("Invalid Input!!");
+          setTimeout(function() {
+            $("#invalid-input").text("");
+          }, 2000);
+        });
 
-    $("#signin-email").val("");
-    $("#signin-password").val("");
-    $("#signup-name").val("");
+      $("#signup-email").val("");
+      $("#signup-password").val("");
+      $("#repeat-password").val("");
+      $("#signup-name").val("");
+    }
   });
 
   // Event handler for sign in button click

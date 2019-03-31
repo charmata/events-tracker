@@ -73,7 +73,8 @@
 .btn-modal {
   color: #bee5eb;
   background-color: #17a2b8 !important;
-  box-shadow: 2px 2px 2px #000;
+  box-shadow: 1px 1px 1px #000;
+  border-radius: 0;
 }
 
 .btn-modal:hover {
@@ -105,4 +106,5 @@ table a:hover {
 
 .modal-content {
   box-shadow: 1px 1px 1px #000;
+  border-radius: 0;
 }
