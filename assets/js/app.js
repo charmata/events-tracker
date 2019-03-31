@@ -91,9 +91,7 @@ function parseData(response) {
           status: event.dates.status.code,
           venue: {
             name: event._embedded.venues[0].name,
-            city: event._embedded.venues[0].city.name,
-            latitude: event._embedded.venues[0].location.latitude,
-            longitude: event._embedded.venues[0].location.longitude
+            city: event._embedded.venues[0].city.name
           }
         };
 
@@ -114,6 +112,12 @@ function parseData(response) {
           data[id].minPrice = event.priceRanges[0].min;
           data[id].maxPrice = event.priceRanges[0].max;
           data[id].currency = event.priceRanges[0].currency;
+        }
+
+        // Ticketsnow doesn't provide coordinates with their venues
+        if (event._embedded.venues[0].location.latitude != 0 || event._embedded.venues[0].location.longitude != 0) {
+          data[id].venue.latitude = event._embedded.venues[0].location.latitude;
+          data[id].venue.longitude = event._embedded.venues[0].location.longitude;
         }
       }
       addSearchRow(id);
