@@ -60,8 +60,18 @@ $(document).ready(function() {
   var addToEventFeature = eventSnapshot => {
     var es = eventSnapshot.val();
 
-    eventFeature.geometry.coordinates[0] = parseFloat(es.venue.longitude);
-    eventFeature.geometry.coordinates[1] = parseFloat(es.venue.latitude);
+    if (es.venue.longitude) {
+      eventFeature.geometry.coordinates[0] = parseFloat(es.venue.longitude);
+    } else {
+      eventFeature.geometry.coordinates[0] = 0;
+    }
+
+    if (es.venue.latitude) {
+      eventFeature.geometry.coordinates[1] = parseFloat(es.venue.latitude);
+    } else {
+      eventFeature.geometry.coordinates[1] = 0;
+    }
+
     eventFeature.properties.eventId = eventSnapshot.key;
     eventFeature.properties.name = es.name;
     eventFeature.properties.date = es.date;
