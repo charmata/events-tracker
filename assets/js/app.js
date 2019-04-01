@@ -414,7 +414,9 @@ $(document).ready(function() {
       isAuth = true;
       $("#signin-content").show();
 
+      // Show save buttons
       $("#event-details td:nth-child(6)").show();
+      $("#event-details-list th:nth-child(6)").show();
 
       var eventsRef = database.ref(`events-tracker/${user.uid}/event-details`);
 
@@ -431,7 +433,9 @@ $(document).ready(function() {
       // When signed out
       isAuth = false;
 
+      // Hide save buttons
       $("#event-details td:nth-child(6)").hide();
+      $("#event-details-list th:nth-child(6)").hide();
 
       database.ref().off("child_added");
       $("#saved-events").empty();
