@@ -71,20 +71,14 @@
 }
 
 .btn-modal {
-  background-color: #bee5eb;
-  color: #17a2b8 !important;
-  box-shadow: 2px 2px 2px #000;
+  color: #bee5eb;
+  background-color: #17a2b8 !important;
+  box-shadow: 1px 1px 1px #000;
+  border-radius: 0;
 }
 
 .btn-modal:hover {
   box-shadow: none;
-}
-
-.modal-bg {
-  background: #17a2b8 !important;
-  color: #f8f9fa !important;
-  font-weight: Bold;
-  font-size: large;
 }
 
 .btn:focus,
@@ -108,4 +102,20 @@
 
 table a:hover {
   text-decoration: none;
+}
+
+.modal-content {
+  box-shadow: 1px 1px 1px #000;
+  border-radius: 0;
+}
+
+#signup-email:focus,
+#signup-name:focus,
+#signup-password:focus,
+#repeat-password:focus,
+#signin-email:focus,
+#signin-password:focus,
+.close {
+  outline: 0 !important;
+  box-shadow: none !important;
 }
