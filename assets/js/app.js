@@ -105,11 +105,13 @@ function parseData(response) {
         }
 
         // Look for event image which is exactly 100px
-        event.images.forEach(image => {
-          if (image.width === 100) {
-            data[id].thumb = image.url;
-          }
-        });
+        if (event.images) {
+          event.images.forEach(image => {
+            if (image.width === 100) {
+              data[id].thumb = image.url;
+            }
+          });
+        }
 
         // Pricing is not always available
         if (event.priceRanges) {
@@ -125,11 +127,13 @@ function parseData(response) {
         }
 
         // Look for venue image which is exactly 205px
-        event._embedded.venues[0].images.forEach(image => {
-          if (image.width === 205) {
-            data[id].venue.thumb = image.url;
-          }
-        });
+        if (event._embedded.venues[0].images) {
+          event._embedded.venues[0].images.forEach(image => {
+            if (image.width === 205) {
+              data[id].venue.thumb = image.url;
+            }
+          });
+        }
       }
       addSearchRow(id);
     });
