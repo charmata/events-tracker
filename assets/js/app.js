@@ -19,7 +19,19 @@ var key = "iDRHy92FejlZujp04SMlt4ZiH2A1LpuY";
 // Queries the api or loads a saved response from session storage
 function searchEvents(query, page, city, date, category) {
   date = moment(date).format("YYYY-MM-DDTHH:mm:ssZ");
-  var queryUrl = `${endpoint}?apikey=${key}&radius=40&unit=km&city=${city}&segmentId=${category}&startDateTime=${date}&sort=date,asc&size=5&page=${page}&keyword=${query}`;
+  var queryParams = $.param({
+    apikey: key,
+    radius: 40,
+    unit: "km",
+    city: city,
+    segmentId: category,
+    startDateTime: date,
+    sort: "date,asc",
+    size: 5,
+    page: page,
+    keyword: query
+  });
+  var queryUrl = `${endpoint}?${queryParams}`;
 
   // Check if query exists in session storage before making a network request
   if (sessionStorage.getItem(queryUrl)) {
